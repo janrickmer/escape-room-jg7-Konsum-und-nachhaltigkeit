@@ -1,0 +1,2660 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<title>Der Sneaker vor der Haustür · Konsum unter der Lupe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   DER SNEAKER VOR DER HAUSTÜR — Escape Room
+   Politik & Wirtschaft · Jg. 7 · Konsum unter der Lupe
+   Helles Design · Grün-/Erdtöne · frisch & nachhaltig
+   ============================================================ */
+
+:root{
+  --bg:           #f6faf2;
+  --bg-soft:      #ecf3e4;
+  --surface:      #ffffff;
+  --surface-alt:  #f3f8ec;
+  --ink:          #1e2a1f;
+  --ink-soft:     #3d4f3f;
+  --ink-mute:     #6a7a6c;
+  --primary:      #3f7a4d;   /* frisches Blattgrün */
+  --primary-dark: #2d5e3a;
+  --primary-soft: #e2efde;
+  --accent:       #b07a2a;   /* warmes Erdgold */
+  --accent-bright:#c8923c;
+  --accent-soft:  #f4ead4;
+  --success:      #2f7d41;
+  --success-bg:   #e7f3e9;
+  --error:        #b1442f;
+  --error-bg:     #f8eae6;
+  --missed:       #b07a2a;
+  --missed-bg:    #f5ecd6;
+  --border:       rgba(30,42,31,0.12);
+  --border-soft:  rgba(30,42,31,0.07);
+  --shadow-sm:    0 1px 3px rgba(30,42,31,0.07), 0 1px 2px rgba(30,42,31,0.05);
+  --shadow-md:    0 6px 24px rgba(30,42,31,0.10), 0 2px 6px rgba(30,42,31,0.06);
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:    'IBM Plex Mono', 'Menlo', 'Courier New', monospace;
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+
+html,body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:var(--font-body);
+  font-weight:400;
+  line-height:1.65;
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+body::before{
+  content:'';
+  position:fixed; inset:0; z-index:-2;
+  background:
+    radial-gradient(ellipse at 10% 8%, rgba(63,122,77,0.07) 0%, transparent 45%),
+    radial-gradient(ellipse at 92% 92%, rgba(176,122,42,0.06) 0%, transparent 45%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+  pointer-events:none;
+}
+
+.app{ min-height:100vh; display:flex; flex-direction:column; }
+
+/* ---------- Topbar ---------- */
+.topbar{
+  position:sticky; top:0; z-index:50;
+  background:rgba(255,255,255,0.88);
+  backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border-soft);
+  padding:12px 26px;
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+}
+.topbar-brand{
+  display:flex; align-items:center; gap:11px;
+  font-family:var(--font-display); font-weight:600; font-size:15px;
+  color:var(--primary); letter-spacing:0.01em;
+}
+.topbar-brand svg{ width:24px; height:24px; stroke:var(--primary); fill:none; }
+.topbar-progress{ display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+.seal{
+  width:30px; height:30px; border-radius:50%;
+  border:1.5px solid var(--border); background:var(--surface);
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-mono); font-size:11px; font-weight:600;
+  color:var(--ink-mute); transition:all .35s cubic-bezier(.4,0,.2,1);
+}
+.seal.library{
+  width:11px; height:11px; border-radius:2px; border:1.5px solid var(--border);
+  background:transparent;
+}
+.seal.library.active{ border-color:var(--primary); background:var(--primary); }
+.seal.library.visited{ border-color:var(--accent); background:var(--accent); }
+.seal.active{ border-color:var(--primary); color:var(--primary); box-shadow:0 0 0 3px var(--primary-soft); }
+.seal.solved{
+  background:var(--accent); border-color:var(--accent); color:#fff;
+  font-family:var(--font-display); font-weight:700; font-size:14px; transform:rotate(-3deg);
+}
+
+/* ---------- Layout ---------- */
+.main{ flex:1; display:flex; align-items:flex-start; justify-content:center; padding:52px 22px 64px; }
+.screen{ width:100%; max-width:880px; animation:screenIn .55s cubic-bezier(.16,1,.3,1) both; }
+@keyframes screenIn{ from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
+
+.site-footer{
+  text-align:center; font-size:11px; color:var(--ink-mute);
+  padding:18px 12px 22px; border-top:1px solid var(--border-soft);
+  font-family:var(--font-mono); letter-spacing:0.02em;
+}
+
+/* ---------- Typography ---------- */
+h1,h2,h3{ font-family:var(--font-display); font-weight:600; line-height:1.15; color:var(--ink); letter-spacing:-0.01em; }
+.kicker{
+  font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:0.18em;
+  text-transform:uppercase; color:var(--accent); margin-bottom:14px;
+  display:flex; align-items:center; gap:11px;
+}
+.kicker::before{ content:''; width:26px; height:1px; background:var(--accent); display:inline-block; }
+.title-mega{ font-size:clamp(40px,7vw,68px); font-weight:600; line-height:1; margin-bottom:20px; letter-spacing:-0.025em; }
+.title-mega em{ font-style:italic; font-weight:400; color:var(--primary); }
+.lede{ font-family:var(--font-display); font-size:clamp(17px,2vw,21px); font-weight:400; line-height:1.5; color:var(--ink-soft); max-width:60ch; margin-bottom:28px; }
+.section-title{ font-size:clamp(28px,4vw,40px); font-weight:600; margin-bottom:8px; }
+p{ margin-bottom:14px; }
+p.body-lg{ font-size:16.5px; line-height:1.7; }
+.text-mute{ color:var(--ink-mute); }
+
+/* ---------- Cards ---------- */
+.card{
+  background:var(--surface); border:1px solid var(--border-soft);
+  border-radius:8px; padding:30px 34px; margin-bottom:22px; box-shadow:var(--shadow-sm); position:relative;
+}
+.card-accent::before{
+  content:''; position:absolute; left:0; top:22px; bottom:22px; width:3px;
+  background:var(--accent); border-radius:0 2px 2px 0;
+}
+.briefing{ font-family:var(--font-display); font-style:italic; font-size:17px; line-height:1.7; color:var(--ink); padding-left:18px; }
+.briefing .speaker{
+  display:block; font-family:var(--font-mono); font-style:normal; font-size:10px; font-weight:600;
+  letter-spacing:0.18em; text-transform:uppercase; color:var(--accent); margin-bottom:8px;
+}
+
+/* ---------- Buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:9px; padding:13px 26px; border:none; border-radius:4px;
+  font-family:var(--font-body); font-size:13.5px; font-weight:600; letter-spacing:0.02em;
+  cursor:pointer; transition:all .22s cubic-bezier(.4,0,.2,1); text-decoration:none;
+}
+.btn-primary{ background:var(--primary); color:#fff; }
+.btn-primary:hover{ background:var(--primary-dark); transform:translateY(-1px); box-shadow:var(--shadow-md); }
+.btn-ghost{ background:transparent; color:var(--primary); border:1.5px solid var(--border); }
+.btn-ghost:hover{ border-color:var(--primary); }
+.btn-arrow::after{ content:'\2192'; font-family:var(--font-mono); font-size:15px; }
+.btn-row{ display:flex; gap:14px; flex-wrap:wrap; margin-top:22px; align-items:center; }
+
+/* ---------- Inputs ---------- */
+.field-label{ display:block; font-family:var(--font-mono); font-size:10px; font-weight:600; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); margin-bottom:6px; }
+.text-input{
+  width:100%; padding:12px 14px; background:var(--surface-alt); border:1.5px solid var(--border);
+  border-radius:4px; color:var(--ink); font-family:var(--font-body); font-size:15px;
+}
+.text-input:focus{ outline:none; border-color:var(--primary); background:#fff; }
+.input-error{ display:none; margin-top:14px; padding:10px 14px; background:var(--error-bg); border-left:3px solid var(--error); color:var(--ink); font-size:13px; border-radius:4px; }
+
+/* ---------- Room header ---------- */
+.room-header{ display:flex; align-items:flex-start; gap:18px; margin-bottom:18px; }
+.room-number{ font-family:var(--font-display); font-size:46px; font-weight:600; color:var(--accent); line-height:0.9; }
+.room-location{ font-family:var(--font-mono); font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-mute); }
+.room-name{ font-family:var(--font-display); font-size:26px; font-weight:600; color:var(--ink); }
+
+/* ---------- Library ---------- */
+.library-banner{
+  display:flex; gap:14px; align-items:flex-start; background:var(--primary-soft);
+  border:1px solid rgba(63,122,77,0.22); border-radius:8px; padding:16px 18px; margin-bottom:26px;
+}
+.library-banner svg{ width:22px; height:22px; stroke:var(--primary); fill:none; flex-shrink:0; margin-top:2px; }
+.library-banner .warn{ display:block; margin-top:6px; color:var(--primary-dark); font-weight:600; font-size:13.5px; }
+.lib-section{ margin-bottom:22px; }
+.lib-section-title{ font-family:var(--font-display); font-size:19px; font-weight:600; color:var(--primary); margin-bottom:8px; }
+.lib-bullets{ margin:8px 0 0 20px; }
+.lib-bullets li{ margin-bottom:7px; }
+.lib-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:12px; }
+@media(max-width:600px){ .lib-grid{ grid-template-columns:1fr; } }
+.lib-card{ background:var(--surface-alt); border:1px solid var(--border-soft); border-radius:6px; padding:14px 16px; }
+.lib-card-sub{ font-family:var(--font-mono); font-size:9.5px; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent); }
+.lib-card-title{ font-family:var(--font-display); font-size:16px; font-weight:600; margin:2px 0 5px; }
+.lib-card-body{ font-size:13.5px; color:var(--ink-soft); }
+.lib-table{ width:100%; border-collapse:collapse; margin-top:10px; font-size:14px; }
+.lib-table th,.lib-table td{ text-align:left; padding:9px 11px; border-bottom:1px solid var(--border-soft); vertical-align:top; }
+.lib-table th{ font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-mute); }
+.lib-warning-bar{
+  display:flex; gap:12px; align-items:center; background:var(--accent-soft);
+  border:1px solid rgba(176,122,42,0.3); border-radius:8px; padding:14px 18px; margin:22px 0;
+}
+.lib-warning-bar svg{ width:22px; height:22px; stroke:var(--accent); fill:none; flex-shrink:0; }
+.note-box{
+  background:var(--surface-alt); border-left:3px solid var(--primary); border-radius:4px;
+  padding:12px 16px; margin:14px 0; font-size:14.5px;
+}
+.note-box .note-label{
+  display:block; font-family:var(--font-mono); font-size:10px; font-weight:600;
+  letter-spacing:0.14em; text-transform:uppercase; color:var(--primary); margin-bottom:5px;
+}
+
+/* ---------- Chart (Säulendiagramm in Akte 2) ---------- */
+.chart-wrap{
+  text-align:center; margin:18px 0;
+  padding:20px 18px 14px;
+  background:var(--surface-alt);
+  border:1px solid var(--border-soft);
+  border-radius:8px;
+}
+.chart-wrap svg{ max-width:520px; width:100%; height:auto; display:block; margin:0 auto; }
+.chart-caption{
+  font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em;
+  color:var(--ink-mute); margin-top:6px; line-height:1.45;
+}
+.pollutants-grid{
+  display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px;
+}
+@media(max-width:600px){ .pollutants-grid{ grid-template-columns:1fr; } }
+.pollutant-card{
+  background:var(--surface); border:1px solid var(--border-soft); border-radius:6px;
+  padding:11px 13px;
+}
+.pollutant-card .pc-name{
+  font-family:var(--font-display); font-size:15px; font-weight:600; color:var(--error); margin-bottom:4px;
+}
+.pollutant-card .pc-body{ font-size:13px; line-height:1.45; color:var(--ink-soft); }
+
+/* ---------- Video embed (Akten 3 & 4) ---------- */
+.video-wrap{
+  position:relative; width:100%; padding-top:56.25%;
+  border-radius:8px; overflow:hidden; box-shadow:var(--shadow-md);
+  background:#000; margin:14px 0 10px;
+}
+.video-wrap iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+.fallback-line{
+  display:flex; gap:14px; flex-wrap:wrap; align-items:center;
+  margin-top:14px; font-size:14px; color:var(--ink-soft);
+}
+.alt-banner{
+  background:var(--accent-soft); border:1px solid rgba(176,122,42,0.3);
+  border-radius:8px; padding:14px 18px; margin:0 0 22px;
+}
+.alt-banner p{ margin:0; font-size:14px; }
+
+/* ---------- Puzzle: single choice ---------- */
+.mc-question{ margin-bottom:24px; }
+.mc-q-text{ font-weight:600; font-size:16px; margin-bottom:12px; }
+.mc-option{
+  display:flex; align-items:flex-start; gap:11px; width:100%; text-align:left;
+  padding:13px 16px; margin-bottom:9px; background:var(--surface); border:1.5px solid var(--border);
+  border-radius:6px; cursor:pointer; font-size:14.5px; line-height:1.5; transition:all .18s ease; font-family:var(--font-body); color:var(--ink);
+}
+.mc-option:hover{ border-color:var(--primary); }
+.mc-option .dot{ width:18px; height:18px; border-radius:50%; border:2px solid var(--border); flex-shrink:0; margin-top:1px; }
+.mc-option.selected{ border-color:var(--primary); background:var(--primary-soft); }
+.mc-option.selected .dot{ border-color:var(--primary); background:var(--primary); box-shadow:inset 0 0 0 3px var(--surface); }
+.mc-option.correct{ border-color:var(--success); background:var(--success-bg); }
+.mc-option.incorrect{ border-color:var(--error); background:var(--error-bg); }
+
+/* ---------- Puzzle: cloze + matching dropdowns ---------- */
+.cloze{ font-size:16px; line-height:2.2; }
+.cloze select, .match-select{
+  font-family:var(--font-body); font-size:14px; font-weight:600; color:var(--primary);
+  background:var(--accent-soft); border:1.5px solid var(--accent); border-radius:5px; padding:4px 8px; margin:0 2px;
+}
+.cloze select.ok, .match-select.ok{ border-color:var(--success); background:var(--success-bg); color:var(--success); }
+.cloze select.bad, .match-select.bad{ border-color:var(--error); background:var(--error-bg); color:var(--error); }
+.match-row{ display:flex; align-items:center; gap:14px; padding:12px 0; border-bottom:1px solid var(--border-soft); flex-wrap:wrap; }
+.match-left{ flex:1; min-width:200px; font-weight:600; font-size:15px; }
+.match-left .lc-sub{ display:block; font-weight:400; font-size:13px; color:var(--ink-mute); }
+
+/* ---------- Puzzle: multi-select grid ---------- */
+.multi-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:11px; margin:20px 0; }
+@media(max-width:600px){ .multi-grid{ grid-template-columns:1fr; } }
+.multi-card{
+  display:flex; align-items:flex-start; gap:11px; padding:15px 16px; background:var(--surface);
+  border:1.5px solid var(--border); border-radius:6px; cursor:pointer; font-size:14px; line-height:1.45;
+  text-align:left; transition:all .18s ease; font-family:var(--font-body); color:var(--ink);
+}
+.multi-card:hover{ border-color:var(--primary); }
+.multi-card .box{ width:18px; height:18px; border-radius:4px; border:2px solid var(--border); flex-shrink:0; margin-top:1px; }
+.multi-card.selected{ border-color:var(--primary); background:var(--primary-soft); }
+.multi-card.selected .box{ border-color:var(--primary); background:var(--primary); }
+.multi-card.correct{ border-color:var(--success); background:var(--success-bg); }
+.multi-card.incorrect{ border-color:var(--error); background:var(--error-bg); }
+.multi-card.missed{ border-color:var(--missed); background:var(--missed-bg); }
+
+/* ---------- Puzzle: classify rows (multi-column) ---------- */
+.classify-row{ display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--border-soft); flex-wrap:wrap; }
+.classify-text{ flex:1; min-width:210px; font-size:14.5px; }
+.classify-btns{ display:flex; gap:8px; flex-wrap:wrap; }
+.classify-btn{
+  font-family:var(--font-body); font-size:12.5px; font-weight:600; padding:8px 14px; border-radius:5px;
+  border:1.5px solid var(--border); background:var(--surface); color:var(--ink-soft); cursor:pointer; transition:all .18s ease;
+}
+.classify-btn:hover{ border-color:var(--primary); }
+.classify-btn.active{ border-color:var(--primary); background:var(--primary); color:#fff; }
+.classify-row.correct{ background:var(--success-bg); }
+.classify-row.incorrect{ background:var(--error-bg); }
+
+/* ---------- Status / hint ---------- */
+.status{ padding:14px 18px; border-radius:6px; margin:18px 0; font-size:14px; display:none; }
+.status.show{ display:block; animation:screenIn .3s ease both; }
+.status .label{ display:block; font-family:var(--font-mono); font-size:10px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; margin-bottom:4px; }
+.status-success{ background:var(--success-bg); border-left:3px solid var(--success); }
+.status-success .label{ color:var(--success); }
+.status-warning{ background:var(--error-bg); border-left:3px solid var(--error); }
+.status-warning .label{ color:var(--error); }
+.hint-box{ display:none; background:var(--surface-alt); border:1px dashed var(--border); border-radius:6px; padding:14px 18px; margin-top:16px; font-size:14px; color:var(--ink-soft); }
+.hint-box.show{ display:block; }
+.hint-box .label{ display:block; font-family:var(--font-mono); font-size:10px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); margin-bottom:5px; }
+.hint-btn{ background:none; border:none; color:var(--primary); font-family:var(--font-body); font-size:13px; font-weight:600; cursor:pointer; text-decoration:underline; }
+
+/* ---------- Reveal overlay ---------- */
+.reveal-overlay{ position:fixed; inset:0; z-index:200; background:rgba(45,94,58,0.55); backdrop-filter:blur(4px); display:none; align-items:center; justify-content:center; padding:20px; }
+.reveal-overlay.show{ display:flex; animation:screenIn .3s ease both; }
+.reveal-card{ background:var(--surface); border-radius:12px; box-shadow:var(--shadow-md); padding:40px 44px; max-width:440px; text-align:center; }
+.reveal-letter{ font-family:var(--font-display); font-size:96px; font-weight:700; color:var(--accent); line-height:1; }
+.reveal-caption{ font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-mute); margin-top:6px; }
+.reveal-progress{ display:flex; gap:8px; justify-content:center; margin:22px 0 26px; }
+.reveal-progress-letter{ width:38px; height:46px; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-size:22px; font-weight:700; color:var(--ink-mute); background:var(--surface-alt); border:1px solid var(--border); border-radius:5px; }
+.reveal-progress-letter.lit{ color:#fff; background:var(--accent); border-color:var(--accent); }
+
+/* ---------- Final ---------- */
+.final-hero{ text-align:center; margin-bottom:34px; }
+.final-code{ font-family:var(--font-display); font-size:clamp(54px,12vw,104px); font-weight:700; letter-spacing:0.08em; color:var(--accent); line-height:1; }
+.final-actions{ display:grid; gap:14px; }
+.final-action{ display:block; width:100%; text-align:left; background:var(--surface-alt); border:1.5px solid var(--border); border-radius:8px; padding:18px 20px; cursor:pointer; transition:all .2s ease; font-family:var(--font-body); }
+.final-action:hover{ border-color:var(--primary); box-shadow:var(--shadow-sm); }
+.final-action .label{ font-family:var(--font-mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--accent); font-weight:600; }
+.final-action .title{ font-family:var(--font-display); font-size:18px; font-weight:600; color:var(--ink); margin:3px 0 4px; }
+.final-action .desc{ font-size:13.5px; color:var(--ink-soft); }
+.font-mono{ font-family:var(--font-mono); }
+.muted-list{ margin:6px 0 0 18px; }
+.muted-list li{ margin-bottom:6px; color:var(--ink-soft); font-size:14px; }
+
+/* Sneaker journey SVG */
+.journey-wrap{ text-align:center; margin:10px 0 4px; }
+.journey-wrap svg{ max-width:520px; width:100%; height:auto; }
+
+/* Lina-Karte */
+.lina-card{ display:flex; gap:22px; align-items:flex-start; flex-wrap:wrap; background:var(--surface-alt); border:1px solid var(--border-soft); border-radius:10px; padding:22px 24px; }
+.lina-frame{ width:128px; flex-shrink:0; }
+.lina-frame svg{ width:128px; height:160px; display:block; }
+.lina-cap{ text-align:center; font-family:var(--font-mono); font-size:9px; letter-spacing:0.06em; color:var(--ink-mute); margin-top:6px; }
+.lina-body{ flex:1; min-width:240px; }
+.lina-body h3{ font-size:20px; margin-bottom:6px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="topbar-brand">
+      <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      Konsum-Detektive · Akte SNEAKER
+    </div>
+    <div class="topbar-progress" id="progressSeals"></div>
+  </div>
+
+  <div class="main">
+    <div class="screen" id="screenContainer"></div>
+  </div>
+
+  <div class="site-footer">Copyright Jan-Rickmer Feindt</div>
+</div>
+
+<!-- Reveal overlay -->
+<div class="reveal-overlay" id="revealOverlay">
+  <div class="reveal-card">
+    <div class="reveal-letter" id="revealLetter">H</div>
+    <div class="reveal-caption" id="revealCaption"></div>
+    <div class="reveal-progress" id="revealProgress"></div>
+    <button class="btn btn-primary btn-arrow" id="revealContinue">Weiter</button>
+  </div>
+</div>
+
+<!-- ==== Eingebetteter Feiditor (Digitales Arbeitsblatt) ==== -->
+<script type="text/template" id="feiditor-src">
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feiditor</title>
+<style>
+  :root{
+    --paper:#f7f4ec; --paper2:#fffdf8; --ink:#221f1a; --muted:#6f675a;
+    --line:#ddd5c4; --accent:#6b4f2c; --accent2:#8a6a3c; --shadow:rgba(40,30,15,.10);
+    --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
+    --sans:"Avenir Next",Avenir,"Segoe UI","Helvetica Neue",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink); font-family:var(--sans);
+    -webkit-font-smoothing:antialiased; line-height:1.5;
+  }
+  .screen{display:none; min-height:100vh}
+  .screen.active{display:block}
+
+  /* ---------- Start ---------- */
+  #screen-start{display:none; place-items:center; padding:40px 20px}
+  #screen-start.active{display:grid}
+  .card{
+    width:100%; max-width:440px; background:var(--paper2);
+    border:1px solid var(--line); border-radius:14px; padding:40px 36px;
+    box-shadow:0 18px 50px -28px var(--shadow);
+  }
+  .brand{font-family:var(--serif); font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); margin:0 0 6px}
+  .card h1{font-family:var(--serif); font-weight:600; font-size:30px; margin:0 0 4px; letter-spacing:.01em}
+  .card p.sub{color:var(--muted); margin:0 0 26px; font-size:14.5px}
+  label{display:block; font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:0 0 6px}
+  .field{margin-bottom:18px}
+  input[type=text]{
+    width:100%; font-family:var(--serif); font-size:18px; color:var(--ink);
+    background:var(--paper); border:1px solid var(--line); border-radius:9px;
+    padding:11px 13px; outline:none; transition:border-color .15s, box-shadow .15s;
+  }
+  input[type=text]:focus{border-color:var(--accent2); box-shadow:0 0 0 3px rgba(138,106,60,.16)}
+  .btn{
+    font-family:var(--sans); font-size:15px; font-weight:600; letter-spacing:.01em;
+    color:var(--paper2); background:var(--ink); border:1px solid var(--ink);
+    border-radius:9px; padding:12px 18px; cursor:pointer; transition:transform .06s, background .15s;
+  }
+  .btn:hover{background:#332e25}
+  .btn:active{transform:translateY(1px)}
+  .btn.block{width:100%; margin-top:6px}
+  .btn.ghost{background:transparent; color:var(--ink); border-color:var(--line)}
+  .btn.ghost:hover{background:var(--paper)}
+  .err{color:#b3261e; font-size:13.5px; min-height:18px; margin:2px 0 0}
+  .foot{margin-top:24px; padding-top:16px; border-top:1px solid var(--line); text-align:center}
+  .foot a{color:var(--muted); font-size:12.5px; text-decoration:none; letter-spacing:.04em}
+  .foot a:hover{color:var(--accent); text-decoration:underline}
+
+  /* ---------- Editor ---------- */
+  #screen-editor{display:none; flex-direction:column; height:100vh}
+  #screen-editor.active{display:flex}
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:13px 22px; border-bottom:1px solid var(--line); background:var(--paper2);
+  }
+  .who{font-family:var(--serif); font-size:16px}
+  .who .lbl{font-family:var(--sans); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); margin-right:8px}
+  .count{font-size:12.5px; color:var(--muted); font-variant-numeric:tabular-nums}
+  .paperwrap{flex:1; overflow:auto; display:flex; flex-direction:column; align-items:center; padding:34px 20px 150px}
+  .sheet{
+    width:100%; max-width:760px; background:var(--paper2); border:1px solid var(--line);
+    border-radius:6px; box-shadow:0 24px 60px -40px var(--shadow); padding:56px 60px;
+  }
+  #editor{
+    width:100%; min-height:60vh; resize:none; border:0; outline:0;
+    font-family:var(--serif); font-size:18px; line-height:32px; color:var(--ink);
+    background-color:transparent;
+    background-image:repeating-linear-gradient(to bottom,
+      transparent 0,
+      transparent 31px,
+      var(--line) 31px,
+      var(--line) 32px);
+    background-attachment:local;
+    padding:0;
+  }
+  #editor::placeholder{color:#b9b0a0}
+  .moodle-hint{
+    max-width:760px; margin:14px auto 0; padding:14px 20px;
+    background:#fdecea; border:1.5px solid #f5b8b1; border-radius:8px;
+    color:#a72020; font-family:var(--sans); font-size:14.5px; font-weight:600;
+    text-align:center; line-height:1.5;
+  }
+  .actionbar{
+    position:fixed; left:0; right:0; bottom:0; display:flex; justify-content:center;
+    padding:16px 16px 46px; background:linear-gradient(to top, var(--paper) 60%, rgba(247,244,236,0));
+  }
+  .copyright{
+    position:fixed; left:0; right:0; bottom:13px; text-align:center;
+    font-size:11px; letter-spacing:.05em; color:var(--muted); pointer-events:none; z-index:6;
+  }
+
+  /* ---------- Lehrkraft ---------- */
+  #screen-teacher{display:none; place-items:start center; padding:40px 20px 80px}
+  #screen-teacher.active{display:grid}
+  .panel{width:100%; max-width:920px}
+  .panel h1{font-family:var(--serif); font-weight:600; font-size:26px; margin:0 0 4px}
+  .panel .sub{color:var(--muted); margin:0 0 22px; font-size:14.5px}
+  .drop{
+    background:var(--paper2); border:1.5px dashed var(--line); border-radius:12px;
+    padding:26px; text-align:center; color:var(--muted); font-size:14.5px;
+  }
+  .drop strong{color:var(--ink)}
+  .row{display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:14px}
+  input[type=password]{
+    font-family:var(--serif); font-size:18px; letter-spacing:.12em; width:180px;
+    background:var(--paper); border:1px solid var(--line); border-radius:9px; padding:10px 12px; outline:none;
+  }
+  input[type=password]:focus{border-color:var(--accent2); box-shadow:0 0 0 3px rgba(138,106,60,.16)}
+  .hidden{display:none !important}
+  .backlink{display:inline-block; margin-bottom:18px; color:var(--muted); font-size:13px; text-decoration:none}
+  .backlink:hover{color:var(--accent)}
+
+  /* analysis */
+  .legend{display:flex; gap:18px; flex-wrap:wrap; margin:20px 0 14px; font-size:13.5px; color:var(--muted)}
+  .legend span{display:inline-flex; align-items:center; gap:7px}
+  .sw{width:13px; height:13px; border-radius:3px; display:inline-block}
+  .stat{font-size:13px; color:var(--muted); margin:0 0 16px; font-variant-numeric:tabular-nums}
+  .analysis{
+    background:var(--paper2); border:1px solid var(--line); border-radius:10px;
+    padding:30px 34px; font-family:var(--serif); font-size:17.5px; line-height:1.85;
+    white-space:pre-wrap; word-wrap:break-word; overflow-wrap:anywhere;
+  }
+  .nmeta{font-family:var(--sans); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-bottom:14px}
+</style>
+</head>
+<body>
+
+<!-- ============ START ============ -->
+<section id="screen-start" class="screen active">
+  <div class="card">
+    <p class="brand">Feiditor</p>
+    <h1>Bevor du beginnst</h1>
+    <p class="sub">Bitte trage deinen Namen ein. Danach öffnet sich der Schreibbereich.</p>
+    <div class="field">
+      <label for="vorname">Vorname</label>
+      <input type="text" id="vorname" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="field">
+      <label for="nachname">Nachname</label>
+      <input type="text" id="nachname" autocomplete="off" spellcheck="false">
+    </div>
+    <p class="err" id="start-err"></p>
+    <button class="btn block" id="start-btn">Schreibbereich öffnen</button>
+    <div class="foot"><a href="#" id="to-teacher">Lehrkraft</a></div>
+  </div>
+</section>
+
+<!-- ============ EDITOR ============ -->
+<section id="screen-editor" class="screen">
+  <div class="topbar">
+    <div class="who"><span class="lbl">Verfasser:in</span><span id="who-name"></span></div>
+    <div class="count"><span id="charcount">0</span> Zeichen</div>
+  </div>
+  <div class="paperwrap">
+    <div class="sheet">
+      <textarea id="editor" placeholder="Hier schreiben…" spellcheck="true" autocomplete="off"></textarea>
+    </div>
+    <div class="moodle-hint">Wandle diesen Text nun in eine PDF-Datei um und lade diese PDF-Datei in der korrekten Abgabe auf Moodle hoch.</div>
+    <div class="moodle-hint">Aufgabe 7: Nachdem du die Lösungen zu Aufgaben 1-6 auf Moodle hochgeladen hast, bearbeitest du die auf Moodle verlinkte Aufgabe "Text verfassen ..."</div>
+  </div>
+  <div class="actionbar">
+    <button class="btn" id="export-btn">Text in PDF-Datei umwandeln</button>
+  </div>
+</section>
+
+<!-- ============ LEHRKRAFT ============ -->
+<section id="screen-teacher" class="screen">
+  <div class="panel">
+    <a href="#" class="backlink" id="back-start">← zurück</a>
+    <h1>Auswertung für die Lehrkraft</h1>
+    <p class="sub">Laden Sie die vom Schüler abgegebene PDF-Datei und geben Sie den Code ein.
+       Der Code ist die Anzahl der Buchstaben im Vornamen des Schülers multipliziert mit 1104
+       (Beispiel: Vorname „Lina" = 4 Buchstaben → Code 4416). Danach wird der Text farblich
+       ausgewertet, und die Escape-Room-Daten (Name, Geburtsdatum, Bestätigungscode) werden angezeigt.</p>
+
+    <div class="drop">
+      <p style="margin:0 0 10px"><strong>PDF auswählen</strong> oder hierher ziehen</p>
+      <input type="file" id="pdf-input" accept="application/pdf,.pdf">
+    </div>
+    <p class="err" id="teacher-err"></p>
+
+    <div id="code-area" class="hidden">
+      <div class="row">
+        <input type="password" id="code-input" inputmode="numeric" placeholder="Code">
+        <button class="btn" id="code-btn">Auswertung anzeigen</button>
+      </div>
+    </div>
+
+    <div id="result"></div>
+  </div>
+</section>
+
+<div id="pagefoot" class="copyright">Copyright Jan-Rickmer Feindt</div>
+
+<script>
+/* ====================================================================== *
+ *  Selbst gebauter, vollständig offline laufender Editor mit Tracking.   *
+ *  Keine externen Bibliotheken, keine Netzwerkaufrufe.                   *
+ * ====================================================================== */
+
+/* ---------- Helvetica-Glyphbreiten (AFM, Einheiten/1000), nach Byte ---------- */
+const HELV={32:278,33:278,34:355,35:556,36:556,37:889,38:667,39:191,40:333,41:333,42:389,43:584,44:278,45:333,46:278,47:278,48:556,49:556,50:556,51:556,52:556,53:556,54:556,55:556,56:556,57:556,58:278,59:278,60:584,61:584,62:584,63:556,64:1015,65:667,66:667,67:722,68:722,69:667,70:611,71:778,72:722,73:278,74:500,75:667,76:556,77:833,78:722,79:778,80:667,81:778,82:722,83:667,84:611,85:722,86:667,87:944,88:667,89:667,90:611,91:278,92:278,93:278,94:469,95:556,96:333,97:556,98:556,99:500,100:556,101:556,102:278,103:556,104:556,105:222,106:222,107:500,108:222,109:833,110:556,111:556,112:556,113:556,114:333,115:500,116:278,117:556,118:500,119:722,120:500,121:500,122:500,123:334,124:260,125:334,126:584,133:1000,145:222,146:222,147:333,148:333,149:350,150:556,151:1000,160:278,161:333,162:556,163:556,164:556,165:556,166:260,167:556,168:333,169:737,170:370,171:556,172:584,173:333,174:737,175:333,176:400,177:584,178:333,179:333,180:333,181:556,182:537,183:278,184:333,185:333,186:365,187:556,188:834,189:834,190:834,191:611,192:667,193:667,194:667,195:667,196:667,197:667,198:1000,199:722,200:667,201:667,202:667,203:667,204:278,205:278,206:278,207:278,208:722,209:722,210:778,211:778,212:778,213:778,214:778,215:584,216:778,217:722,218:722,219:722,220:722,221:667,222:667,223:611,224:556,225:556,226:556,227:556,228:556,229:556,230:889,231:500,232:556,233:556,234:556,235:556,236:278,237:278,238:278,239:278,240:556,241:556,242:556,243:556,244:556,245:556,246:556,247:584,248:611,249:556,250:556,251:556,252:556,253:500,254:556,255:500};
+function afm(b){return HELV[b]!==undefined?HELV[b]:556;}
+const CP1252={0x20AC:128,0x201A:130,0x0192:131,0x201E:132,0x2026:133,0x2020:134,0x2021:135,0x02C6:136,0x2030:137,0x0160:138,0x2039:139,0x0152:140,0x017D:142,0x2018:145,0x2019:146,0x201C:147,0x201D:148,0x2022:149,0x2013:150,0x2014:151,0x02DC:152,0x2122:153,0x0161:154,0x203A:155,0x0153:156,0x017E:158,0x0178:159};
+function charByte(ch){const cp=ch.codePointAt(0);if(cp<=0xFF)return cp;if(CP1252[cp]!==undefined)return CP1252[cp];return 0x3F;}
+function charWidth(ch,s){return afm(charByte(ch))/1000*s;}
+function textWidth(str,s){let w=0;for(const ch of str)w+=charWidth(ch,s);return w;}
+function encStr(str){let o="";for(const ch of str){const b=charByte(ch);if(b===0x28)o+="\\(";else if(b===0x29)o+="\\)";else if(b===0x5C)o+="\\\\";else o+=String.fromCharCode(b);}return o;}
+
+function wrapText(text,maxW,size){
+  const lines=[]; const paras=text.replace(/\r\n?/g,"\n").split("\n");
+  for(const para of paras){
+    if(para===""){lines.push("");continue;}
+    const words=para.split(/( )/); let cur="";
+    const pushWord=(w)=>{
+      if(textWidth(w,size)>maxW){
+        let chunk="";
+        for(const ch of w){
+          if(textWidth(chunk+ch,size)>maxW&&chunk!==""){
+            if(cur!==""){lines.push(cur);cur="";} lines.push(chunk); chunk=ch;
+          } else chunk+=ch;
+        }
+        if(chunk){if(cur!==""){lines.push(cur);cur="";} cur=chunk;} return;
+      }
+      if(textWidth(cur+w,size)>maxW&&cur!==""){lines.push(cur.replace(/ +$/,""));cur=w.trim()===""?"":w;}
+      else cur+=w;
+    };
+    for(const w of words) pushWord(w);
+    lines.push(cur.replace(/ +$/,""));
+  }
+  return lines;
+}
+
+function buildPdf(opts){
+  const PW=595.28,PH=841.89, ML=56,MR=56,MT=56,MB=64;
+  const HEAD_SIZE=13,BODY_SIZE=11,NOTE_SIZE=11,LEAD=15.5;
+  const usableW=PW-ML-MR;
+  const headerBaseline=PH-MT-HEAD_SIZE, ruleY=headerBaseline-6, bodyTop=ruleY-22, bodyBottom=MB+24;
+  const allLines=wrapText(opts.body||"",usableW,BODY_SIZE);
+  if(allLines.length===0) allLines.push("");
+  const pages=[]; let idx=0;
+  while(idx<allLines.length){
+    const pageLines=[]; let y=bodyTop;
+    while(idx<allLines.length&&y>=bodyBottom){pageLines.push({text:allLines[idx],y});y-=LEAD;idx++;}
+    pages.push({lines:pageLines});
+  }
+  const nPages=pages.length;
+
+  // roter Moodle-Hinweis unten auf der letzten Seite
+  const noteText="Bitte diese PDF-Datei herunterladen und bei Moodle hochladen.";
+  const noteLines=wrapText(noteText,usableW,NOTE_SIZE);
+  const noteBottom=46; // Grundlinie der untersten Hinweiszeile
+
+  const pageObjNum=(i)=>4+i*2, contObjNum=(i)=>5+i*2;
+  const objects={};
+  objects[1]="<< /Type /Catalog /Pages 2 0 R >>";
+  objects[2]=`<< /Type /Pages /Count ${nPages} /Kids [${pages.map((_,i)=>`${pageObjNum(i)} 0 R`).join(" ")}] >>`;
+  objects[3]="<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>";
+  for(let i=0;i<nPages;i++){
+    objects[pageObjNum(i)]=`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${PW.toFixed(2)} ${PH.toFixed(2)}] /Resources << /Font << /F1 3 0 R >> >> /Contents ${contObjNum(i)} 0 R >>`;
+    let s="0.5 w\n";
+    s+=`BT /F1 ${HEAD_SIZE} Tf 0 0 0 rg ${ML} ${headerBaseline.toFixed(2)} Td (${encStr(opts.name||"")}) Tj ET\n`;
+    s+=`${ML} ${ruleY.toFixed(2)} m ${(PW-MR).toFixed(2)} ${ruleY.toFixed(2)} l S\n`;
+    const pl=pages[i].lines;
+    if(pl.length){
+      s+=`BT /F1 ${BODY_SIZE} Tf 0 0 0 rg ${ML} ${pl[0].y.toFixed(2)} Td ${LEAD} TL\n`;
+      for(let j=0;j<pl.length;j++){if(j>0)s+="T*\n"; s+=`(${encStr(pl[j].text)}) Tj\n`;}
+      s+="ET\n";
+    }
+    if(i===nPages-1){ // roter Hinweis nur auf der letzten Seite
+      const topY=noteBottom+(noteLines.length-1)*LEAD;
+      s+=`BT /F1 ${NOTE_SIZE} Tf 0.78 0.05 0.05 rg ${ML} ${topY.toFixed(2)} Td ${LEAD} TL\n`;
+      for(let j=0;j<noteLines.length;j++){if(j>0)s+="T*\n"; s+=`(${encStr(noteLines[j])}) Tj\n`;}
+      s+="ET\n";
+    }
+    objects[contObjNum(i)]={stream:s};
+  }
+  let pdf="%PDF-1.7\n%\u00E2\u00E3\u00CF\u00D3\n";
+  if(opts.trackB64) pdf+=`%TRACKDATA ${opts.trackB64}\n`;
+  const offsets={}; const maxNum=3+nPages*2;
+  for(let n=1;n<=maxNum;n++){
+    offsets[n]=pdf.length; const o=objects[n];
+    if(o&&o.stream!==undefined){const st=o.stream;pdf+=`${n} 0 obj\n<< /Length ${st.length} >>\nstream\n${st}endstream\nendobj\n`;}
+    else pdf+=`${n} 0 obj\n${o}\nendobj\n`;
+  }
+  const xrefStart=pdf.length;
+  pdf+=`xref\n0 ${maxNum+1}\n0000000000 65535 f \n`;
+  for(let n=1;n<=maxNum;n++) pdf+=String(offsets[n]).padStart(10,"0")+" 00000 n \n";
+  pdf+=`trailer\n<< /Size ${maxNum+1} /Root 1 0 R >>\nstartxref\n${xrefStart}\n%%EOF`;
+  return pdf;
+}
+
+/* ---------------- gemeinsame Krypto- & Auswertungs-Funktionen ---------------- *
+ * Diese werden per toString() in die Lehrkraft-Seite (data:-Link) eingebettet,  *
+ * damit es nur EINE Quelle der Wahrheit gibt.                                   */
+function bytesToB64(bytes){let bin="";const CH=0x8000;for(let i=0;i<bytes.length;i+=CH)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+CH));return btoa(bin);}
+function b64ToBytes(b64){const bin=atob(b64);const out=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)out[i]=bin.charCodeAt(i);return out;}
+async function _key(codeStr,usage){const mat=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(codeStr));return crypto.subtle.importKey("raw",mat,{name:"AES-GCM"},false,usage);}
+async function aesEncrypt(plain,codeStr){const iv=crypto.getRandomValues(new Uint8Array(12));const key=await _key(codeStr,["encrypt"]);const ct=await crypto.subtle.encrypt({name:"AES-GCM",iv},key,new TextEncoder().encode(plain));return bytesToB64(iv)+":"+bytesToB64(new Uint8Array(ct));}
+async function aesDecrypt(bundle,codeStr){const parts=bundle.split(":");const iv=b64ToBytes(parts[0]);const ct=b64ToBytes(parts[1]);const key=await _key(codeStr,["decrypt"]);const pt=await crypto.subtle.decrypt({name:"AES-GCM",iv},key,ct);return new TextDecoder().decode(pt);}
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));}
+function classify(isVisible,src,gap){
+  const COL={plain:"#23201b",paste:"#b3261e",fast:"#c2710c",slow:"#1f7a34",system:"#9c948a"};
+  if(!isVisible) return COL.plain;
+  if(src==="s") return COL.system;           // System-Text (vorbefüllte Aufgaben) -> gedämpftes Grau
+  if(src==="p") return COL.paste;            // aus Zwischenablage -> rot
+  if(gap>=0&&gap<=15) return COL.paste;      // <= 0,015 s getippt -> rot
+  if(gap>15&&gap<=70) return COL.fast;       // 0,015-0,07 s -> orange
+  return COL.slow;                           // > 0,07 s / erstes Zeichen -> grün
+}
+function renderAnalysis(payload){
+  const t=payload.t, m=payload.m||[];
+  let html=""; let total=0,red=0,orange=0,green=0,sysCount=0;
+  const WS=/\s/;
+  for(let i=0;i<t.length;i++){
+    const ch=t[i]; const isV=!WS.test(ch);
+    const mark=m[i]||["t",-1]; const src=mark[0]; const gap=mark[1];
+    const col=classify(isV,src,gap);
+    if(isV){
+      if(src==="s"){ sysCount++; }
+      else{
+        total++;
+        if(col==="#b3261e") red++;
+        else if(col==="#c2710c") orange++;
+        else green++;
+      }
+    }
+    html+=`<span style="color:${col}">${esc(ch)}</span>`;
+  }
+  const pct=(x)=>total?Math.round(x/total*100):0;
+  const legend=
+    '<div class="legend">'+
+      '<span><i class="sw" style="background:#9c948a"></i>vorbefüllte Aufgabenstellung (kein Schülertext)</span>'+
+      '<span><i class="sw" style="background:#b3261e"></i>eingefügt oder ≤ 0,015 s getippt</span>'+
+      '<span><i class="sw" style="background:#c2710c"></i>0,015–0,07 s nach vorherigem Zeichen getippt</span>'+
+      '<span><i class="sw" style="background:#1f7a34"></i>&gt; 0,07 s nach vorherigem Zeichen getippt</span>'+
+    '</div>';
+  const stat=`<p class="stat">Schülertext (ohne vorbefüllte Aufgaben): ${total} Zeichen · rot: ${red} (${pct(red)} %) · orange: ${orange} (${pct(orange)} %) · grün: ${green} (${pct(green)} %) · vorbefüllt: ${sysCount} Zeichen</p>`;
+  let escapeBlock="";
+  if(payload.e){
+    escapeBlock=
+      '<div style="background:#fffdf8;border:1px solid #ddd5c4;border-radius:10px;padding:18px 22px;margin:0 0 18px;font-family:Iowan Old Style,Palatino,Georgia,serif;font-size:15.5px;line-height:1.55">'+
+        '<div style="font-family:Avenir Next,system-ui,sans-serif;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#6f675a;margin-bottom:10px">Escape-Room-Daten</div>'+
+        '<div><strong>Name:</strong> '+esc(payload.e.fn||"")+' '+esc(payload.e.ln||"")+'</div>'+
+        '<div><strong>Geburtsdatum:</strong> '+esc(payload.e.bd||"")+'</div>'+
+        '<div><strong>Bestätigungscode:</strong> '+esc(payload.e.cd||"")+'</div>'+
+      '</div>';
+  }
+  const head=`<div class="nmeta">Verfasser:in — ${esc(payload.n||"")}</div>`;
+  return head+escapeBlock+legend+stat+`<div class="analysis">${html}</div>`;
+}
+
+/* ---------------- gemeinsame Krypto-Funktionen werden nur noch lokal genutzt ---------------- */
+
+/* ----------------------- geheime Code-Bildung (Lehrkraft) ----------------------- */
+function _kf(s){const n=(s.match(/\p{L}/gu)||[]).length;return String(n*(0x230+0x220));}
+
+/* ------------------------------ Tracking ------------------------------ */
+let prevValue="";
+let recs=[];          // pro Zeichen: {src:'t'|'p', t:ms}
+let justPasted=false; // wird durch paste/drop gesetzt, nach einem input-Event geleert
+
+function reconcile(newVal,pasted,now){
+  const a=prevValue,b=newVal; const minL=Math.min(a.length,b.length);
+  let p=0; while(p<minL&&a[p]===b[p])p++;
+  let s=0; while(s<minL-p&&a[a.length-1-s]===b[b.length-1-s])s++;
+  const removed=a.length-p-s;
+  const inserted=b.slice(p,b.length-s);
+  const ins=inserted.split("").map(()=>({src:pasted?"p":"t",t:now}));
+  recs.splice(p,removed,...ins);
+  if(recs.length!==b.length){ // Sicherheitsnetz gegen Desync
+    recs=b.split("").map(()=>({src:"t",t:now}));
+  }
+  prevValue=newVal;
+}
+
+function buildPayload(name,text){
+  if(recs.length!==text.length){ // letzte Absicherung
+    const now=Date.now(); recs=text.split("").map(()=>({src:"t",t:now}));
+  }
+  const m=[];
+  for(let i=0;i<text.length;i++){
+    const gap=(i===0)?-1:(recs[i].t-recs[i-1].t);
+    m.push([recs[i].src,gap]);
+  }
+  return {n:name,t:text,m};
+}
+
+/* ------------------------------ UI-Steuerung ------------------------------ */
+const $=(id)=>document.getElementById(id);
+function show(screen){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  $(screen).classList.add("active");
+  const pf=$("pagefoot"); if(pf) pf.style.display=(screen==="screen-teacher")?"none":"block";
+}
+function sanitize(s){return (s||"").replace(/[^\p{L}\p{N}_-]/gu,"_").slice(0,40)||"Datei";}
+function asciiName(s){
+  return (s||"")
+    .replace(/ä/g,"ae").replace(/ö/g,"oe").replace(/ü/g,"ue")
+    .replace(/Ä/g,"Ae").replace(/Ö/g,"Oe").replace(/Ü/g,"Ue").replace(/ß/g,"ss")
+    .normalize("NFKD").replace(/[\u0300-\u036f]/g,"")
+    .replace(/[^A-Za-z0-9_-]/g,"_").replace(/_+/g,"_").replace(/^_|_$/g,"")
+    .slice(0,40) || "Datei";
+}
+function fileSafe(s){return (s||"").replace(/[\/\\:*?"<>|\u0000-\u001f]/g,"").replace(/\s+/g," ").trim().slice(0,90)||"Datei";}
+function downloadBlob(blob,filename){
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),5000);
+}
+
+let studentVorname="", studentNachname="";
+
+/* Start */
+$("start-btn").addEventListener("click",()=>{
+  const v=$("vorname").value.trim(), n=$("nachname").value.trim();
+  if(!v||!n){$("start-err").textContent="Bitte Vor- und Nachnamen eintragen.";return;}
+  studentVorname=v; studentNachname=n;
+  $("who-name").textContent=v+" "+n;
+  prevValue=""; recs=[]; $("editor").value="";
+  $("charcount").textContent="0";
+  show("screen-editor");
+  setTimeout(()=>$("editor").focus(),40);
+});
+$("vorname").addEventListener("keydown",e=>{if(e.key==="Enter")$("nachname").focus();});
+$("nachname").addEventListener("keydown",e=>{if(e.key==="Enter")$("start-btn").click();});
+$("to-teacher").addEventListener("click",e=>{e.preventDefault();show("screen-teacher");});
+$("back-start").addEventListener("click",e=>{e.preventDefault();show("screen-start");});
+
+/* Editor-Tracking */
+const ed=$("editor");
+function updateCharcount(){
+  let n=0; for(const r of recs){ if(r.src!=="s") n++; }
+  $("charcount").textContent=String(n);
+}
+ed.addEventListener("paste",()=>{justPasted=true;});
+ed.addEventListener("drop",()=>{justPasted=true;});
+ed.addEventListener("input",()=>{
+  reconcile(ed.value,justPasted,Date.now());
+  justPasted=false;
+  updateCharcount();
+});
+
+/* Export: erzeugt NUR die Text-PDF (mit rotem Moodle-Hinweis); die Zeiterfassungs- und
+   Escape-Room-Daten stecken verschlüsselt (als %TRACKDATA) im PDF und sind nur mit dem
+   Feiditor-Code (Anzahl Buchstaben im Vornamen × 1104) durch die Lehrkraft auslesbar. */
+$("export-btn").addEventListener("click",async()=>{
+  const btn=$("export-btn"); const text=ed.value;
+  const name=studentVorname+" "+studentNachname;
+  btn.disabled=true; const old=btn.textContent; btn.textContent="Erzeuge PDF…";
+  try{
+    const payload=buildPayload(name,text);
+    // Escape-Room-Daten zusätzlich (versteckt) ins PDF einbetten
+    if(window.__ESCAPE_DATA__){
+      payload.e={
+        fn:window.__ESCAPE_DATA__.firstName||"",
+        ln:window.__ESCAPE_DATA__.lastName||"",
+        bd:window.__ESCAPE_DATA__.birthDate||"",
+        cd:window.__ESCAPE_DATA__.code||""
+      };
+    }
+    const code=_kf(studentVorname);              // Feiditor-Code: NICHT der Escape-Room-Code
+    const bundle=await aesEncrypt(JSON.stringify(payload),code);
+
+    const pdfName=fileSafe("Text von "+studentVorname)+".pdf";
+
+    // PDF: Text + roter Moodle-Hinweis; Tracking- und Escape-Daten verschlüsselt als %TRACKDATA-Reserve
+    const pdfStr=buildPdf({name,body:text,trackB64:bundle});
+    const u8=new Uint8Array(pdfStr.length);
+    for(let i=0;i<pdfStr.length;i++)u8[i]=pdfStr.charCodeAt(i)&0xFF;
+
+    downloadBlob(new Blob([u8],{type:"application/pdf"}), pdfName);
+
+    btn.textContent="PDF erstellt ✓";
+    setTimeout(()=>{ btn.textContent=old; }, 2200);
+  }catch(err){ alert("Fehler beim Erzeugen der PDF: "+err.message); btn.textContent=old; }
+  finally{ btn.disabled=false; }
+});
+
+/* Lehrkraft: PDF laden + Code */
+let teacherBundle=null;
+function readPdfFile(file){
+  $("teacher-err").textContent=""; $("result").innerHTML="";
+  $("code-area").classList.add("hidden"); teacherBundle=null;
+  const fr=new FileReader();
+  fr.onload=()=>{
+    const bytes=new Uint8Array(fr.result);
+    let str=""; for(let i=0;i<bytes.length;i++) str+=String.fromCharCode(bytes[i]);
+    const mm=str.match(/%TRACKDATA (\S+)/);
+    if(!mm){$("teacher-err").textContent="In dieser PDF wurden keine Tracking-Daten gefunden.";return;}
+    teacherBundle=mm[1];
+    $("code-area").classList.remove("hidden");
+    setTimeout(()=>$("code-input").focus(),40);
+  };
+  fr.onerror=()=>{$("teacher-err").textContent="Datei konnte nicht gelesen werden.";};
+  fr.readAsArrayBuffer(file);
+}
+$("pdf-input").addEventListener("change",e=>{const f=e.target.files[0];if(f)readPdfFile(f);});
+const dropZone=document.querySelector(".drop");
+["dragover","dragenter"].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault();dropZone.style.borderColor="#8a6a3c";}));
+["dragleave","drop"].forEach(ev=>dropZone.addEventListener(ev,e=>{e.preventDefault();dropZone.style.borderColor="";}));
+dropZone.addEventListener("drop",e=>{const f=e.dataTransfer.files[0];if(f)readPdfFile(f);});
+
+async function showTeacherResult(){
+  const code=$("code-input").value.trim();
+  $("teacher-err").textContent="";
+  if(!teacherBundle)return;
+  try{
+    const json=await aesDecrypt(teacherBundle,code);
+    const p=JSON.parse(json);
+    $("result").innerHTML=renderAnalysis(p);
+  }catch(err){
+    $("result").innerHTML="";
+    $("teacher-err").textContent="Falscher Code.";
+  }
+}
+$("code-btn").addEventListener("click",showTeacherResult);
+$("code-input").addEventListener("keydown",e=>{if(e.key==="Enter")showTeacherResult();});
+
+/* ============================================================
+   Auto-Start aus dem Escape-Room (überspringt die Anmeldung)
+   ============================================================ */
+function buildPrefill(tasks){
+  const lines=[];
+  tasks.forEach((task,i)=>{
+    lines.push("Aufgabe "+(i+1));
+    lines.push(task);
+    for(let k=0;k<8;k++) lines.push("");   // 8 Leerzeilen Lösungsraum
+  });
+  return lines.join("\n");
+}
+(function autoStartFromEscape(){
+  const D=window.__ESCAPE_DATA__;
+  if(!D) return;                                   // ohne Daten: normaler Anmeldebildschirm
+  studentVorname=(D.firstName||"").trim();
+  studentNachname=(D.lastName||"").trim();
+  $("who-name").textContent=(studentVorname+" "+studentNachname).trim();
+  const tasks=Array.isArray(D.tasks)?D.tasks:[];
+  const prefill=tasks.length?buildPrefill(tasks):"";
+  const now=Date.now();
+  ed.value=prefill;
+  prevValue=prefill;
+  recs=prefill.split("").map(()=>({src:"s",t:now}));   // vorbefüllter Text = System (grau, nicht gezählt)
+  updateCharcount();
+  show("screen-editor");
+  // Cursor an den Anfang des ersten Lösungsbereichs setzen (nach Aufgabe 1)
+  setTimeout(()=>{
+    ed.focus();
+    const firstGap=prefill.indexOf("\n\n");
+    const pos=firstGap>=0?firstGap+2:prefill.length;
+    try{ ed.setSelectionRange(pos,pos); }catch(e){}
+  },50);
+})();
+<\/script>
+</body>
+</html>
+
+</script>
+
+<script>
+"use strict";
+
+/* ============================================================
+   KONFIGURATION
+   ============================================================ */
+const CODE_WORD = 'HANDEL';
+const MAGIC = 7;
+
+/* ============================================================
+   STATE
+   ============================================================ */
+let state = {
+  screen:'start',
+  firstName:'', lastName:'', birthDate:'',
+  code:'',
+  solved:[false,false,false,false,false,false],
+  letters:['_','_','_','_','_','_'],
+  mistakes:[null,null,null,null,null,null],
+  attempts:[0,0,0,0,0,0],
+  completedAt:null,
+};
+window.state = state;
+
+function recordAttempt(roomIdx, errorData){
+  state.attempts[roomIdx]++;
+  if(state.attempts[roomIdx] === 1 && errorData && errorData.errors && errorData.errors.length > 0){
+    state.mistakes[roomIdx] = errorData;
+  }
+}
+
+function computeCode(birthDigits){
+  // birthDigits = "TTMMJJJJ" → Geburtstagszahl × 1104 + 7
+  const n = parseInt(birthDigits, 10);
+  return String(n * 1104 + MAGIC);
+}
+
+/* ============================================================
+   MINI PDF WRITER (self-contained, no dependencies)
+   PDF 1.4 · Helvetica + Helvetica-Bold (WinAnsi)
+   ============================================================ */
+const WIN_ANSI_MAP = {
+  'ä':0xE4,'ö':0xF6,'ü':0xFC,'Ä':0xC4,'Ö':0xD6,'Ü':0xDC,'ß':0xDF,
+  '€':0x80,'‚':0x82,'„':0x84,'…':0x85,'†':0x86,'‡':0x87,
+  '‰':0x89,'‹':0x8B,"\u2018":0x91,"\u2019":0x92,"\u201C":0x93,"\u201D":0x94,
+  '•':0x95,'–':0x96,'—':0x97,'™':0x99,'›':0x9B,
+  '¡':0xA1,'«':0xAB,'»':0xBB,'·':0xB7,'×':0xD7,'°':0xB0,
+  '²':0xB2,'³':0xB3,'½':0xBD,'¼':0xBC,'¾':0xBE,'¿':0xBF,
+};
+const FALLBACK_MAP = {
+  '→':'->','←':'<-','↑':'^','↓':'v','✓':'v','✗':'x','✕':'x','★':'*','☆':'*',
+  '\u00A0':' ','\u2009':' ','\u200B':'',
+};
+function encodeWinAnsi(str){
+  const bytes=[];
+  for(const ch of str){
+    const code=ch.charCodeAt(0);
+    if(code<128) bytes.push(code);
+    else if(WIN_ANSI_MAP[ch]!==undefined) bytes.push(WIN_ANSI_MAP[ch]);
+    else if(FALLBACK_MAP[ch]!==undefined){ for(const sub of FALLBACK_MAP[ch]) bytes.push(sub.charCodeAt(0)&0xFF); }
+    else if(code<=255) bytes.push(code);
+    else bytes.push(0x3F);
+  }
+  return bytes;
+}
+const HELV_W=(()=>{
+  const w=new Array(256).fill(500);
+  const widths={' ':278,'!':278,'"':355,'#':556,'$':556,'%':889,'&':667,"'":191,'(':333,')':333,'*':389,'+':584,',':278,'-':333,'.':278,'/':278,'0':556,'1':556,'2':556,'3':556,'4':556,'5':556,'6':556,'7':556,'8':556,'9':556,':':278,';':278,'<':584,'=':584,'>':584,'?':556,'@':1015,'A':667,'B':667,'C':722,'D':722,'E':667,'F':611,'G':778,'H':722,'I':278,'J':500,'K':667,'L':556,'M':833,'N':722,'O':778,'P':667,'Q':778,'R':722,'S':667,'T':611,'U':722,'V':667,'W':944,'X':667,'Y':667,'Z':611,'[':278,'\\':278,']':278,'^':469,'_':556,'`':333,'a':556,'b':556,'c':500,'d':556,'e':556,'f':278,'g':556,'h':556,'i':222,'j':222,'k':500,'l':222,'m':833,'n':556,'o':556,'p':556,'q':556,'r':333,'s':500,'t':278,'u':556,'v':500,'w':722,'x':500,'y':500,'z':500,'{':334,'|':260,'}':334,'~':584,'ä':556,'ö':556,'ü':556,'Ä':667,'Ö':778,'Ü':722,'ß':611,'€':556,'–':556,'—':1000,'«':556,'»':556,'·':278,'°':400,'•':350};
+  for(const k in widths){ const code=WIN_ANSI_MAP[k]!==undefined?WIN_ANSI_MAP[k]:k.charCodeAt(0); if(code<256) w[code]=widths[k]; }
+  return w;
+})();
+function pdfStringWidth(str,fontSize,isBold){
+  const bytes=encodeWinAnsi(str); let total=0;
+  for(const b of bytes) total += (HELV_W[b]||500)*(isBold?1.04:1);
+  return total*fontSize/1000;
+}
+class PdfDoc{
+  constructor(){ this.pages=[]; this.pageW=595; this.pageH=842; this.margin=56; this.cursorY=0; this.currentContent=[]; }
+  startPage(){ this.cursorY=this.pageH-this.margin; this.currentContent=[]; }
+  endPage(){ this.pages.push({content:this.currentContent.join('\n')}); }
+  _escapedString(str){
+    const bytes=encodeWinAnsi(str); let s='(';
+    for(const b of bytes){ if(b===0x28||b===0x29||b===0x5C) s+='\\'; s+=String.fromCharCode(b); }
+    return s+')';
+  }
+  text(str,x,y,fontSize,isBold,color){
+    const fontKey=isBold?'F2':'F1'; const c=color||[0,0,0]; const pdfStr=this._escapedString(str);
+    this.currentContent.push(`${c[0]/255} ${c[1]/255} ${c[2]/255} rg\nBT\n/${fontKey} ${fontSize} Tf\n${x} ${y} Td\n${pdfStr} Tj\nET`);
+  }
+  rect(x,y,w,h,fill,stroke){
+    let cmd='';
+    if(fill) cmd+=`${fill[0]/255} ${fill[1]/255} ${fill[2]/255} rg\n`;
+    if(stroke) cmd+=`${stroke[0]/255} ${stroke[1]/255} ${stroke[2]/255} RG\n`;
+    cmd+=`${x} ${y} ${w} ${h} re\n`;
+    if(fill&&stroke) cmd+='B'; else if(fill) cmd+='f'; else if(stroke) cmd+='S';
+    this.currentContent.push(cmd);
+  }
+  line(x1,y1,x2,y2,color,width){
+    const c=color||[0,0,0];
+    this.currentContent.push(`${c[0]/255} ${c[1]/255} ${c[2]/255} RG\n${width||0.5} w\n${x1} ${y1} m ${x2} ${y2} l S`);
+  }
+  paragraph(str,x,y,width,fontSize,isBold,color,leading){
+    if(!leading) leading=fontSize*1.4;
+    const words=String(str).split(/\s+/); let line=''; let curY=y;
+    for(const word of words){
+      if(!word) continue;
+      const test=line?line+' '+word:word;
+      if(pdfStringWidth(test,fontSize,isBold)<=width){ line=test; }
+      else{
+        if(line){ this.text(line,x,curY,fontSize,isBold,color); curY-=leading; line=word; }
+        else{ this.text(word,x,curY,fontSize,isBold,color); curY-=leading; }
+      }
+    }
+    if(line){ this.text(line,x,curY,fontSize,isBold,color); curY-=leading; }
+    return curY;
+  }
+  build(){
+    const objects=[null,null,
+      '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>',
+      '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>'];
+    const pageIds=[];
+    for(const page of this.pages){
+      objects.push(`<< /Length ${page.content.length} >>\nstream\n${page.content}\nendstream`);
+      const contentId=objects.length;
+      objects.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${this.pageW} ${this.pageH}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${contentId} 0 R >>`);
+      pageIds.push(objects.length);
+    }
+    objects[1]=`<< /Type /Pages /Kids [${pageIds.map(i=>i+' 0 R').join(' ')}] /Count ${pageIds.length} >>`;
+    objects[0]='<< /Type /Catalog /Pages 2 0 R >>';
+    let pdf='%PDF-1.4\n%\xC4\xC5\xC6\xC7\n'; const offsets=[0];
+    for(let i=0;i<objects.length;i++){ offsets.push(pdf.length); pdf+=`${i+1} 0 obj\n${objects[i]}\nendobj\n`; }
+    const xrefOffset=pdf.length;
+    pdf+=`xref\n0 ${objects.length+1}\n0000000000 65535 f \n`;
+    for(let i=1;i<=objects.length;i++) pdf+=String(offsets[i]).padStart(10,'0')+' 00000 n \n';
+    pdf+=`trailer\n<< /Size ${objects.length+1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF\n`;
+    return pdf;
+  }
+  toBase64(trailerComment){
+    let pdf=this.build();
+    if(trailerComment) pdf+=trailerComment;   // unsichtbar nach %%EOF (von PDF-Viewern ignoriert)
+    return btoa(pdf);
+  }
+}
+
+/* ============================================================
+   LÖSUNGSERLÄUTERUNGEN (für PDF 1, Seite 2)
+   ============================================================ */
+const SOLUTION_NOTES = [
+  { room:'Etappe 01 · Bedürfnis, Wunsch oder Werbetrick?',
+    text:'In dieser Etappe ging es darum, drei Dinge sauber auseinanderzuhalten. Bedürfnisse sind Dinge, die jeder Mensch zum Leben braucht – also Essen, Schlaf, Schutz vor Kälte oder Kleidung allgemein. Wünsche sind dagegen eine ganz bestimmte Form, in der wir uns ein Bedürfnis erfüllen wollen, zum Beispiel genau dieser Marken-Sneaker statt irgendeines Schuhs. Werbetricks sind Methoden, mit denen uns Hersteller zum Kaufen bringen wollen – etwa künstliche Verknappung („nur noch 3 Stück"), Influencer-Werbung oder geschönte Statistiken. Wichtig: Werbetricks lassen sich an einer Sache erkennen – sie sollen ein Gefühl von Druck oder Begehren erzeugen, statt einfach nur über ein Produkt zu informieren.' },
+  { room:'Etappe 02 · Vom Hafen zur Haustür',
+    text:'Hier ging es um den weltweiten Transport und um konkrete Zahlen. Pro Tonnenkilometer stößt ein Containerschiff nur etwa 15 g CO₂ aus, ein LKW rund 100 g, ein Frachtflugzeug etwa 1.000 g – das Flugzeug verursacht also pro Kilogramm Ware rund 60-mal so viel CO₂ wie das Schiff. Ein häufiger Trugschluss ist allerdings, Containerschiffe deshalb pauschal für „klimafreundlich" zu halten. Sie verbrennen meist Schweröl, einen besonders billigen und schmutzigen Treibstoff mit einem Schwefelgehalt von bis zu 3,5 % – beim LKW-Diesel sind es nur 0,001 %, also etwa 3.500-mal weniger. Dadurch sind Schiffe bei Luftschadstoffen wie Schwefeldioxid, Stickoxiden und Feinstaub ein massives Problem. Insgesamt verursacht die Schifffahrt weltweit rund 3 % aller von Menschen erzeugten CO₂-Emissionen, etwa 1 Milliarde Tonnen pro Jahr. Merksatz: Pro Kilogramm schneidet das Schiff beim CO₂ am besten ab – aber wirklich „sauber" ist kein Transportmittel.' },
+  { room:'Etappe 03 · Die Spuren der Fabrik',
+    text:'In dieser Etappe musstest du zuerst faire von problematischen Arbeitsbedingungen unterscheiden. Faire Bedingungen erkennt man an Tarifverträgen mit Gewerkschaften, an Schutzkleidung, an bezahltem Urlaub und Lohnfortzahlung bei Krankheit sowie an regelmäßigen Brandschutzübungen. Problematisch sind dagegen 14-Stunden-Tage, verschlossene Notausgänge, Kinderarbeit unter 14 Jahren und Löhne, die zum Leben in der Region nicht reichen. Wichtig ist die differenzierte Sicht: Fabriken in ärmeren Ländern sind nicht automatisch schlecht – sie sichern dort auch Einkommen. Die entscheidende Frage ist nicht „Fabrik ja oder nein?", sondern „Zu welchen Bedingungen?". Das tragische Beispiel Rana Plaza (24. April 2013, Bangladesch) zeigt, was passieren kann, wenn Sicherheitsstandards missachtet werden. Der tagesschau-Beitrag aus Teil 2 zeigt, dass sich zehn Jahre nach Rana Plaza vor allem die Sicherheit in größeren Fabriken deutlich verbessert hat, kleinere Betriebe aber oft „unter dem Radar" arbeiten. Der Mindestlohn liegt mit nur rund 70 Euro pro Monat weit unter dem, was zum Leben reicht – die Gewerkschaften fordern deshalb eine Erhöhung auf etwa 200 Euro, also fast das Dreifache.' },
+  { room:'Etappe 04 · Felder und Fasern',
+    text:'Diese Etappe drehte sich um die Rohstoffe deines Sneakers. Für ein einziges Baumwoll-T-Shirt werden rund 2.700 Liter Wasser verbraucht – so viel trinkt ein Mensch in etwa zweieinhalb Jahren. Beim Anbau werden außerdem große Mengen an Pestiziden eingesetzt: Baumwolle wächst auf nur etwa 2,5 % der weltweiten Ackerfläche, verbraucht aber rund ein Viertel aller weltweit verwendeten Insektizide. Der Aralsee in Zentralasien war einst einer der größten Seen der Welt und ist heute auf etwa 10 % seiner ursprünglichen Größe geschrumpft, weil sein Wasser über Jahrzehnte für die Bewässerung riesiger Baumwollfelder umgeleitet wurde. Die Sneaker-Sohle besteht meist aus Kunststoff – und Kunststoff wird aus Erdöl gewonnen, einem Rohstoff, der irgendwann aufgebraucht sein wird. Die Weltspiegel-Reportage aus Teil 2 zeigt zudem konkret: Umgeleitet wurden die beiden großen Flüsse Amudarja und Syrdarja. Die Bevölkerung leidet heute überdurchschnittlich häufig unter Atemwegserkrankungen, Krebs und einer hohen Kindersterblichkeit, weil Salz und Pestizide aus dem ausgetrockneten Seeboden über Staubstürme in die Dörfer getragen werden. Ein kleiner Teilerfolg gelang nur im nördlichen Teil in Kasachstan durch den Kokaral-Damm – der südliche Teil in Usbekistan gilt als nahezu unrettbar verloren.' },
+  { room:'Etappe 05 · Was wir der Erde aufladen',
+    text:'Hier ging es um die ökologische Bilanz des Konsums. Ein einziges Paar neue Sneaker verursacht etwa 14 kg CO₂ – ungefähr so viel wie eine 70-km-Autofahrt. Bei Fast-Fashion-Marken wie Shein oder H&M kommen wöchentlich neue Modelle in die Läden, und wir kaufen heute rund doppelt so viele Kleidungsstücke wie vor 20 Jahren, tragen sie aber nur halb so lang. Beim Waschen lösen sich winzige Plastikfasern aus Synthetik-Kleidung, das sogenannte Mikroplastik, das über Flüsse und Meere bis in die Fische gelangt, die wir essen. Außerdem werden unsere Altkleider zu großen Teilen nach Ghana und in die chilenische Atacama-Wüste verschifft, wo sich kilometerlange Berge aussortierter Kleidung in der Landschaft auftürmen.' },
+  { room:'Etappe 06 · Lina handelt',
+    text:'Diese Etappe brachte das Wissen zusammen und zeigte vier Hebel, die Verbraucher haben: weniger kaufen, länger nutzen, bewusster kaufen (auf Siegel achten) und politisch handeln. Wichtige Siegel sind Fairtrade (faire Löhne und Arbeitsbedingungen), GOTS (Bio-Baumwolle plus soziale Standards), Grüner Knopf (staatliches deutsches Textilsiegel) und Blauer Engel (ältestes deutsches Umweltsiegel). Politisch wirkt das Lieferkettengesetz (LkSG): Es ist seit 2023 in Kraft und verpflichtet große Firmen in Deutschland, in ihren weltweiten Lieferketten auf Menschenrechte zu achten – also etwa keine Kinderarbeit zuzulassen und für sichere Arbeitsplätze zu sorgen. Der Schlussstein heißt „handeln" – im doppelten Sinn: Du hast verstanden, wie der weltweite Handel funktioniert, und jetzt ist es Zeit, selbst zu handeln. Das ist auch das Lösungswort dieses Escape-Rooms: HANDEL.' },
+];
+
+const ROOM_LABELS = [
+  'Etappe 01 · Bedürfnis, Wunsch oder Werbetrick?',
+  'Etappe 02 · Vom Hafen zur Haustür',
+  'Etappe 03 · Die Spuren der Fabrik',
+  'Etappe 04 · Felder und Fasern',
+  'Etappe 05 · Was wir der Erde aufladen',
+  'Etappe 06 · Lina handelt',
+];
+
+/* ============================================================
+   PDF 1 — „Überblick deiner Antworten & Erläuterungen"
+   ============================================================ */
+function fmtDateTime(d){
+  if(!d) d=new Date();
+  const date=d.toLocaleDateString('de-DE');
+  const time=d.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});
+  return date+', '+time+' Uhr';
+}
+
+function generateOverviewPdf(){
+  const doc=new PdfDoc();
+  const W=doc.pageW,H=doc.pageH,M=doc.margin; const CW=W-2*M;
+  const PRIMARY=[63,122,77], ACCENT=[176,122,42], RED=[177,68,47], GREEN=[47,125,65], MUTE=[106,122,108], TEXT=[30,42,31];
+
+  function header(title){
+    doc.startPage();
+    doc.rect(0,H-72,W,72,PRIMARY);
+    doc.text(title,M,H-38,18,true,[255,255,255]);
+    doc.text('Politik & Wirtschaft · Konsum unter der Lupe · Escape-Room „Der Sneaker vor der Haustür"',M,H-58,9,false,[225,238,225]);
+    return H-72-22;
+  }
+  function ensure(y,need){ if(y-need<70){ doc.endPage(); return header('Überblick deiner Antworten & Erläuterungen'); } return y; }
+
+  let y=header('Überblick deiner Antworten & Erläuterungen');
+
+  // Pflichthinweis (fett) + Feiditor-Fallback (ganz oben)
+  doc.rect(M,y-82,CW,82,[244,234,212]);
+  doc.rect(M,y-82,3,82,ACCENT);
+  let yTop=doc.paragraph('Diese Datei musst du bei Moodle in der dafür vorgesehenen Abgabe hochladen, um deinem Lehrer nachzuweisen, dass du den Escape-Room erfolgreich absolviert hast.',
+    M+12,y-16,CW-24,10.5,true,PRIMARY,13.5);
+  doc.paragraph('Notfall-Tipp: Falls du den Link zum digitalen Arbeitsblatt (Feiditor) nicht mehr hast, kannst du diese PDF-Datei auf https://feiditor.janrickmer.de/ hochladen, um den Feiditor mit deinen Aufgaben erneut zu öffnen.',
+    M+12,yTop-4,CW-24,9,false,MUTE,12);
+  y-=82+14;
+
+  // Identifikationsblock
+  const blockH=78;
+  doc.rect(M,y-blockH,CW,blockH,[243,248,236]);
+  doc.rect(M,y-blockH,3,blockH,ACCENT);
+  doc.text('NAME',M+14,y-16,8,true,ACCENT);
+  doc.text(state.firstName+' '+state.lastName,M+14,y-31,13,true,PRIMARY);
+  doc.text('GEBURTSDATUM',M+14,y-49,8,true,ACCENT);
+  doc.text(state.birthDate,M+14,y-63,11,false,TEXT);
+  doc.text('BESTÄTIGUNGSCODE',M+300,y-16,8,true,ACCENT);
+  doc.text(state.code,M+300,y-31,13,true,PRIMARY);
+  doc.text('ABGESCHLOSSEN AM',M+300,y-49,8,true,ACCENT);
+  doc.text(fmtDateTime(state.completedAt),M+300,y-63,11,false,TEXT);
+  y-=blockH+18;
+
+  y=doc.paragraph('Diese Datei zeigt dir, was du beim ersten Versuch in jeder Etappe geantwortet hast. Jede Etappe hast du am Ende richtig gelöst – diese Übersicht soll dir nur helfen zu sehen, wo du anfangs noch danebenlagst. Auf Seite 2 findest du ausführliche Lösungserläuterungen zum Nachlesen.',
+    M,y,CW,10.5,false,TEXT,14);
+  y-=8;
+
+  const totalErrors=state.mistakes.reduce((a,m)=>a+(m&&m.errors?m.errors.length:0),0);
+  const perfectRooms=state.attempts.filter((a,i)=>a>=1 && (!state.mistakes[i]||!state.mistakes[i].errors||state.mistakes[i].errors.length===0)).length;
+  doc.rect(M,y-34,CW,34,[231,243,233]);
+  doc.rect(M,y-34,3,34,GREEN);
+  doc.text('ÜBERSICHT',M+14,y-13,8,true,GREEN);
+  doc.text(`Etappen im ersten Versuch fehlerfrei: ${perfectRooms} von 6   ·   Fehler im ersten Versuch insgesamt: ${totalErrors}`,M+14,y-26,10.5,true,TEXT);
+  y-=48;
+
+  for(let i=0;i<6;i++){
+    y=ensure(y,64);
+    doc.text(ROOM_LABELS[i],M,y,12.5,true,PRIMARY);
+    doc.line(M,y-4,M+CW,y-4,ACCENT,0.8);
+    y-=18;
+    const attempts=state.attempts[i]; const m=state.mistakes[i];
+    const attemptsLabel=attempts===1?'1 Versuch':attempts+' Versuche';
+    if(!m||!m.errors||m.errors.length===0){
+      y=doc.paragraph('Fehlerfrei beim ersten Versuch gelöst. ('+attemptsLabel+')',M,y,CW,10.5,true,GREEN,14); y-=8; continue;
+    }
+    y=doc.paragraph('Benötigt: '+attemptsLabel+'. Beim ersten Versuch war Folgendes nicht korrekt:',M,y,CW,10.5,false,MUTE,14); y-=4;
+    for(const err of m.errors){
+      y=ensure(y,52);
+      doc.text('•',M,y,11,true,RED);
+      if(err.kind==='mc_falsch'){
+        y=doc.paragraph(err.item,M+14,y,CW-14,10.5,true,TEXT,13);
+        y=doc.paragraph('Deine Wahl: '+err.wrongAnswer,M+14,y,CW-14,10,false,RED,13);
+        y=doc.paragraph('Richtig: '+err.correctAnswer,M+14,y,CW-14,10,true,GREEN,13);
+      } else if(err.kind==='luecke_falsch'){
+        y=doc.paragraph(err.item,M+14,y,CW-14,10.5,true,TEXT,13);
+        y=doc.paragraph('Deine Wahl: '+err.wrongAnswer+'   ·   Richtig: '+err.correctAnswer,M+14,y,CW-14,10,false,MUTE,13);
+      } else if(err.kind==='zuordnung_falsch'){
+        y=doc.paragraph(err.item,M+14,y,CW-14,10.5,true,TEXT,13);
+        y=doc.paragraph('Du zugeordnet: '+err.wrongAnswer+'   ·   Richtig: '+err.correctAnswer,M+14,y,CW-14,10,false,MUTE,13);
+      } else if(err.kind==='falsch_gewaehlt'){
+        y=doc.paragraph('Falsch ausgewählt: "'+err.item+'"',M+14,y,CW-14,10.5,true,TEXT,13);
+        if(err.explanation) y=doc.paragraph('→ '+err.explanation,M+14,y,CW-14,10,false,MUTE,13);
+      } else if(err.kind==='uebersehen'){
+        y=doc.paragraph('Übersehen (gehörte dazu): "'+err.item+'"',M+14,y,CW-14,10.5,true,TEXT,13);
+        if(err.explanation) y=doc.paragraph('→ '+err.explanation,M+14,y,CW-14,10,false,MUTE,13);
+      } else if(err.kind==='falsch_einsortiert'){
+        y=doc.paragraph('"'+err.item+'"',M+14,y,CW-14,10.5,true,TEXT,13);
+        y=doc.paragraph('Du einsortiert: '+err.wrongAnswer+'   ·   Richtig: '+err.correctAnswer,M+14,y,CW-14,10,false,MUTE,13);
+      } else if(err.kind==='falsche_eingabe'){
+        y=doc.paragraph(err.item,M+14,y,CW-14,10.5,true,TEXT,13);
+        y=doc.paragraph('Deine Eingabe: "'+err.wrongAnswer+'"   ·   Richtig: '+err.correctAnswer,M+14,y,CW-14,10,false,MUTE,13);
+      }
+      y-=5;
+    }
+    y-=10;
+  }
+
+  y=ensure(y,40);
+  doc.line(M,y,M+CW,y,[200,200,200],0.4); y-=14;
+  doc.text('Bestätigungscode für Moodle: '+state.code,M,y,10,true,PRIMARY);
+  y-=22;
+  doc.text('Copyright Jan-Rickmer Feindt',M,y,8.5,false,MUTE);
+  doc.endPage();
+
+  /* ---- Seite 2: Lösungserläuterungen ---- */
+  let y2=header('Lösungserläuterungen');
+  y2=doc.paragraph('Hier werden die richtigen Lösungen der sechs Etappen noch einmal genauer erklärt. Lies sie in Ruhe durch – so kannst du das Wissen aus dem Escape-Room für die Reflexions-Aufgaben und im Unterricht nutzen.',M,y2,CW,10.5,false,TEXT,14);
+  y2-=10;
+  function ensure2(y,need){ if(y-need<70){ doc.endPage(); return header('Lösungserläuterungen'); } return y; }
+  for(const note of SOLUTION_NOTES){
+    y2=ensure2(y2,90);
+    doc.text(note.room,M,y2,12.5,true,PRIMARY);
+    doc.line(M,y2-4,M+CW,y2-4,ACCENT,0.8);
+    y2-=18;
+    y2=doc.paragraph(note.text,M,y2,CW,10.5,false,TEXT,14.5);
+    y2-=14;
+  }
+  y2=ensure2(y2,30);
+  doc.line(M,y2,M+CW,y2,[200,200,200],0.4); y2-=14;
+  doc.text('Copyright Jan-Rickmer Feindt',M,y2,8.5,false,MUTE);
+  doc.endPage();
+
+  // Versteckte Rekonstruktionsdaten für den Standalone-Feiditor (nach %%EOF, von Viewern ignoriert).
+  // Enthält: Vorname, Nachname, die sechs Feiditor-Aufgaben und die beiden roten Feldtexte.
+  const escData = {
+    v: state.firstName,
+    n: state.lastName,
+    t: REFLECT_TASKS.slice(0, 6),
+    r: RED_FIELDS,
+  };
+  let escB64 = '';
+  try { escB64 = btoa(unescape(encodeURIComponent(JSON.stringify(escData)))); } catch (e) { escB64 = ''; }
+  const trailer = escB64 ? ('\n%ESCAPEDATA ' + escB64 + '\n') : '';
+  return doc.toBase64(trailer);
+}
+
+/* ============================================================
+   PDF 2 — Reflexions-Datei
+   ============================================================ */
+const REFLECT_TASKS = [
+  'Erkläre in eigenen Worten den Unterschied zwischen einem Bedürfnis, einem Wunsch und einem Werbetrick. Nenne dazu jeweils ein eigenes Beispiel aus deinem Alltag. (Etappe 1)',
+  'Stell dir vor, du sollst einer Sechstklässlerin erklären, warum es einen Unterschied macht, ob ein Sneaker mit dem Schiff oder mit dem Flugzeug nach Deutschland gebracht wird. Wie würdest du das in eigenen Worten erklären? (Etappe 2)',
+  'Fasse mit eigenen Worten zusammen, was am 24. April 2013 in Rana Plaza in Bangladesch passiert ist und warum dieses Unglück bis heute als wichtiges Beispiel für die Probleme in der weltweiten Textilindustrie gilt. (Etappe 3)',
+  'Beschreibe, warum Baumwolle eine sehr „durstige" Pflanze ist und welche Folgen ihr Anbau für den Aralsee hatte. (Etappe 4)',
+  'Vergleiche: Was läuft beim heutigen Konsum von Kleidung schief – aus Sicht der Umwelt UND aus Sicht der Menschen, die unsere Kleidung herstellen? Nenne mindestens je zwei Punkte. (Etappen 3, 4 und 5)',
+  'Lina hat verstanden, was hinter ihrem Sneaker steckt. Nenne vier konkrete Dinge, die sie (und du) jetzt tun können, um bewusster zu konsumieren – und erkläre kurz, warum jeder Punkt etwas bringt. (Etappe 6)',
+  'Bearbeite nun auf Moodle die Aufgabe „Text verfassen …".',
+  'Lade diese Reflexions-Datei in der dafür vorgesehenen Abgabe bei Moodle hoch.',
+];
+
+// Texte der beiden roten Felder des Feiditors – exakt wie im eingebetteten Feiditor.
+// Werden (zusammen mit Name & Aufgaben) versteckt in die Überblick-PDF eingebettet,
+// damit der Standalone-Feiditor sie bei einem PDF-Upload rekonstruieren kann.
+const RED_FIELDS = [
+  'Wandle diesen Text nun in eine PDF-Datei um und lade diese PDF-Datei in der korrekten Abgabe auf Moodle hoch.',
+  'Aufgabe 7: Nachdem du die Lösungen zu Aufgaben 1-6 auf Moodle hochgeladen hast, bearbeitest du die auf Moodle verlinkte Aufgabe "Text verfassen ..."',
+];
+
+function generateReflexionPdf(){
+  const doc=new PdfDoc();
+  const W=doc.pageW,H=doc.pageH,M=doc.margin; const CW=W-2*M;
+  const PRIMARY=[63,122,77], ACCENT=[176,122,42], MUTE=[106,122,108], TEXT=[30,42,31], LINE=[205,205,205];
+
+  function header(){
+    doc.startPage();
+    doc.rect(0,H-72,W,72,PRIMARY);
+    doc.text('Reflexion — Konsum unter der Lupe',M,H-38,18,true,[255,255,255]);
+    doc.text('Escape-Room „Der Sneaker vor der Haustür" · Bearbeite die Aufgaben in eigenen Worten',M,H-58,9,false,[225,238,225]);
+    return H-72-22;
+  }
+  function ensure(y,need){ if(y-need<70){ doc.endPage(); return header(); } return y; }
+
+  let y=header();
+
+  // Identifikationsblock
+  const bH=58;
+  doc.rect(M,y-bH,CW,bH,[243,248,236]);
+  doc.rect(M,y-bH,3,bH,ACCENT);
+  doc.text('NAME',M+14,y-15,8,true,ACCENT);
+  doc.text(state.firstName+' '+state.lastName,M+14,y-30,12.5,true,PRIMARY);
+  doc.text('GEBURTSDATUM',M+260,y-15,8,true,ACCENT);
+  doc.text(state.birthDate,M+260,y-30,11,false,TEXT);
+  doc.text('ESCAPE-ROOM ABGESCHLOSSEN AM',M+14,y-46,8,true,ACCENT);
+  doc.text(fmtDateTime(state.completedAt),M+200,y-46,10,false,TEXT);
+  y-=bH+16;
+
+  y=doc.paragraph('Diese Reflexion vertieft die Inhalte aus dem Escape-Room. Beantworte die folgenden Aufgaben in eigenen Worten – stichpunktartig oder in ganzen Sätzen.',
+    M,y,CW,10.5,false,TEXT,14);
+  y-=8;
+
+  for(let i=0;i<REFLECT_TASKS.length;i++){
+    const isLast=i===REFLECT_TASKS.length-1;
+    const isSecondLast=i===REFLECT_TASKS.length-2;
+    y=ensure(y,isLast||isSecondLast?70:120);
+    doc.text('Aufgabe '+(i+1),M,y,11,true,ACCENT);
+    y-=15;
+    y=doc.paragraph(REFLECT_TASKS[i],M,y,CW,11,true,TEXT,15);
+    y-=8;
+    if(isLast || isSecondLast){
+      doc.rect(M,y-12,12,12,null,MUTE);
+      doc.text('erledigt',M+20,y-10,9.5,false,MUTE);
+      y-=26;
+    } else {
+      const linesCount=4;
+      for(let l=0;l<linesCount;l++){ y-=20; doc.line(M,y,M+CW,y,LINE,0.5); }
+      y-=14;
+    }
+  }
+
+  y=ensure(y,30);
+  doc.line(M,y,M+CW,y,LINE,0.4); y-=14;
+  doc.text('Copyright Jan-Rickmer Feindt',M,y,8.5,false,MUTE);
+  doc.endPage();
+  return doc.toBase64();
+}
+
+/* ============================================================
+   DOWNLOAD-HELFER
+   ============================================================ */
+function translit(s){
+  return (s||'').replace(/ä/g,'ae').replace(/ö/g,'oe').replace(/ü/g,'ue')
+    .replace(/Ä/g,'Ae').replace(/Ö/g,'Oe').replace(/Ü/g,'Ue').replace(/ß/g,'ss')
+    .replace(/[^a-zA-Z0-9-]/g,'');
+}
+function downloadPdfBase64(b64,filename){
+  const binary=atob(b64); const bytes=new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+  const blob=new Blob([bytes],{type:'application/pdf'});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement('a'); link.href=url; link.download=filename;
+  document.body.appendChild(link); link.click(); document.body.removeChild(link);
+  setTimeout(()=>URL.revokeObjectURL(url),1200);
+}
+window.downloadOverviewPDF=()=>{
+  try{
+    const b64=generateOverviewPdf();
+    const clean=(s)=>(s||'').trim().replace(/\s+/g,'-').replace(/[\/\\:*?"<>|]+/g,'');
+    const vn=clean(state.firstName)||'Vorname';
+    const nn=clean(state.lastName)||'Nachname';
+    const filename=`Escape-Room-Überblick_von_${vn}_${nn}.pdf`;
+    // Blob + Object-URL erzeugen
+    const binary=atob(b64); const bytes=new Uint8Array(binary.length);
+    for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+    const blob=new Blob([bytes],{type:'application/pdf'});
+    const url=URL.createObjectURL(blob);
+    // 1) PDF in neuem Tab öffnen (die finale Seite bleibt im Ausgangstab bestehen)
+    window.open(url,'_blank');
+    // 2) Dieselbe Datei zusätzlich im Hintergrund herunterladen
+    const link=document.createElement('a'); link.href=url; link.download=filename;
+    document.body.appendChild(link); link.click(); document.body.removeChild(link);
+    // Object-URL erst spät freigeben, damit neuer Tab und Download sicher fertig laden
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+  }catch(e){ console.error(e); alert('Konnte die Datei „Escape-Room-Überblick" nicht erzeugen: '+e.message); }
+};
+window.downloadReflexionPDF=()=>{
+  try{
+    const b64=generateReflexionPdf();
+    const name=translit(state.lastName)||'Schueler';
+    downloadPdfBase64(b64,`Reflexion_${name}_${state.code}.pdf`);
+  }catch(e){ console.error(e); alert('Konnte die Datei nicht erzeugen: '+e.message); }
+};
+window.openFeiditor=()=>{
+  try{
+    const tplEl=document.getElementById('feiditor-src');
+    if(!tplEl){ alert('Der Feiditor konnte nicht geladen werden.'); return; }
+    // Eingebetteten Feiditor-Quelltext holen und die escapten Script-End-Tags wiederherstellen
+    let html=tplEl.textContent.replace(/<\\\/script>/gi,'<\/script>');
+    // Escape-Room-Daten + die ersten sechs Aufgaben in den Feiditor injizieren (vor </head>)
+    const data={
+      firstName: state.firstName,
+      lastName:  state.lastName,
+      birthDate: state.birthDate,
+      code:      state.code,
+      tasks:     REFLECT_TASKS.slice(0,6)
+    };
+    const inject='<script>window.__ESCAPE_DATA__='+JSON.stringify(data).replace(/</g,'\\u003c')+';<\/script>';
+    if(html.indexOf('</head>')!==-1) html=html.replace('</head>', inject+'\n</head>');
+    else html=inject+html;
+    // Per document.write öffnen, damit der sichere Kontext (crypto.subtle) erhalten bleibt.
+    // Ein Blob-URL würde den secure context verlieren -> Verschlüsselung schlägt fehl.
+    const win=window.open('','_blank');
+    if(!win){ alert('Bitte erlaube Pop-ups für diese Seite, damit sich das digitale Arbeitsblatt öffnen kann.'); return; }
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+  }catch(e){ console.error(e); alert('Das digitale Arbeitsblatt konnte nicht geöffnet werden: '+e.message); }
+};
+window.copyCode=async()=>{
+  try{ await navigator.clipboard.writeText(state.code);
+    const d=document.getElementById('copyDesc'); if(d) d.innerHTML='Code in die Zwischenablage kopiert. Trage ihn in die Moodle-Aufgabe ein.';
+  }catch(e){ const d=document.getElementById('copyDesc'); if(d) d.innerHTML='Code: <strong class="font-mono">'+state.code+'</strong> – bitte manuell kopieren.'; }
+};
+
+/* ============================================================
+   DOM-REFS & SEALS
+   ============================================================ */
+const root=document.getElementById('screenContainer');
+const sealsBox=document.getElementById('progressSeals');
+
+function renderSeals(){
+  sealsBox.innerHTML='';
+  for(let i=0;i<6;i++){
+    const lib=document.createElement('div'); lib.className='seal library';
+    const sc=state.screen;
+    const isLibActive = (sc==='lib'+(i+1)) || (sc==='lib3alt' && i===2) || (sc==='lib4alt' && i===3);
+    if(isLibActive) lib.classList.add('active');
+    else if(state.solved[i] || sc==='room'+(i+1)
+      || (sc.startsWith('room') && parseInt(sc.slice(4))>i+1)
+      || (sc.startsWith('lib') && parseInt((sc.match(/\d+/)||[0])[0])>i+1)
+      || sc==='final') lib.classList.add('visited');
+    sealsBox.appendChild(lib);
+
+    const s=document.createElement('div'); s.className='seal';
+    if(state.solved[i]){ s.classList.add('solved'); s.textContent=CODE_WORD[i]; }
+    else if(state.screen==='room'+(i+1)){ s.classList.add('active'); s.textContent=i+1; }
+    else s.textContent=i+1;
+    sealsBox.appendChild(s);
+  }
+}
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+function escapeHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function shuffle(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+  return a;
+}
+function normalizeAnswer(s){ return (s||'').toLowerCase().replace(/[^a-zäöüß ]/g,'').replace(/\s+/g,' ').trim(); }
+
+/* ============================================================
+   SCREEN: START (Name + Geburtsdatum)
+   ============================================================ */
+function renderStart(){
+  state.screen='start'; renderSeals();
+  root.innerHTML=`
+    <div class="kicker">Politik &amp; Wirtschaft · Klasse 7 · Konsum unter der Lupe</div>
+    <h1 class="title-mega">Der Sneaker<br>vor der <em>Haustür</em></h1>
+    <p class="lede">Ein Päckchen ohne Absender. Ein Sneaker, der eine Geschichte hat. Bevor du losziehst, brauchen wir deinen Namen für die Detektiv-Akte.</p>
+
+    <div class="card card-accent" style="max-width:640px;">
+      <h3 style="font-size:21px; margin-bottom:14px;">Anmeldung als Konsum-Detektiv</h3>
+      <p class="text-mute" style="margin-bottom:20px; font-size:14.5px;">
+        Trag deinen vollen Namen und dein Geburtsdatum ein. Beides erscheint später auf deinen beiden Dateien für Moodle. Dein persönlicher Bestätigungscode wird daraus errechnet.
+      </p>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+        <div>
+          <label class="field-label" for="firstNameInput">Vorname</label>
+          <input id="firstNameInput" class="text-input" type="text" autocomplete="given-name" maxlength="40"
+                 onkeydown="if(event.key==='Enter') document.getElementById('lastNameInput').focus()">
+        </div>
+        <div>
+          <label class="field-label" for="lastNameInput">Nachname</label>
+          <input id="lastNameInput" class="text-input" type="text" autocomplete="family-name" maxlength="40"
+                 onkeydown="if(event.key==='Enter') document.getElementById('birthInput').focus()">
+        </div>
+      </div>
+      <div style="max-width:260px;">
+        <label class="field-label" for="birthInput">Geburtsdatum (TT.MM.JJJJ)</label>
+        <input id="birthInput" class="text-input" type="text" inputmode="numeric" maxlength="10" placeholder="TT.MM.JJJJ"
+               oninput="maskBirth(this)" onkeydown="if(event.key==='Enter') submitStart()">
+      </div>
+      <div id="startError" class="input-error"></div>
+      <div class="btn-row">
+        <button class="btn btn-primary btn-arrow" onclick="submitStart()">Weiter zum Fall</button>
+      </div>
+    </div>
+  `;
+  setTimeout(()=>document.getElementById('firstNameInput')?.focus(),100);
+}
+window.maskBirth=(el)=>{
+  let v=el.value.replace(/[^0-9]/g,'').slice(0,8);
+  let out=v;
+  if(v.length>4) out=v.slice(0,2)+'.'+v.slice(2,4)+'.'+v.slice(4);
+  else if(v.length>2) out=v.slice(0,2)+'.'+v.slice(2);
+  el.value=out;
+};
+window.submitStart=()=>{
+  const fn=document.getElementById('firstNameInput').value.trim();
+  const ln=document.getElementById('lastNameInput').value.trim();
+  const bd=document.getElementById('birthInput').value.trim();
+  const err=document.getElementById('startError');
+  function showErr(msg){ err.style.display='block'; err.textContent=msg; }
+  if(fn.length<2||ln.length<2){ showErr('Bitte trag deinen vollen Vor- und Nachnamen ein (jeweils mindestens 2 Zeichen).'); return; }
+  const m=bd.match(/^(\d{2})\.(\d{2})\.(\d{4})$/);
+  if(!m){ showErr('Bitte gib dein Geburtsdatum im Format TT.MM.JJJJ ein (z. B. 07.03.2013).'); return; }
+  const dd=parseInt(m[1],10), mm=parseInt(m[2],10), yyyy=parseInt(m[3],10);
+  if(dd<1||dd>31||mm<1||mm>12||yyyy<1900||yyyy>2025){ showErr('Das Geburtsdatum scheint nicht zu stimmen. Bitte prüfe Tag, Monat und Jahr.'); return; }
+  state.firstName=fn; state.lastName=ln; state.birthDate=bd;
+  const digits=m[1]+m[2]+m[3];
+  state.code=computeCode(digits);
+  renderIntro();
+};
+
+/* ============================================================
+   SCREEN: INTRO (Story)
+   ============================================================ */
+function renderIntro(){
+  state.screen='intro'; renderSeals();
+  root.innerHTML=`
+    <div class="kicker">Der Fall</div>
+    <h1 class="title-mega">Willkommen<br>im Fall, <em>${escapeHtml(state.firstName)}</em></h1>
+    <p class="lede">Sechs Etappen. Sechs Buchstaben. Eine Geschichte, die niemand erzählt – außer du findest sie heraus.</p>
+
+    <div class="card card-accent">
+      <div class="briefing">
+        <span class="speaker">Lina · 13 Jahre · Schülerin</span>
+        Heute Morgen lag ein Päckchen vor unserer Haustür. Kein Absender. Drin: ein nagelneuer Sneaker, genau in meiner Größe – und ein Zettel: <strong>„Bevor du diesen Sneaker trägst, finde heraus, woher er wirklich kommt."</strong> Ich hab keine Ahnung, wer mir den geschickt hat. Aber ich will den Schuh nicht einfach anziehen, ohne zu wissen, was dahintersteckt. Hilfst du mir? Sechs Spuren, sechs Etappen – am Ende wissen wir, was wir wirklich an den Füßen tragen.
+      </div>
+      <p class="body-lg" style="margin-top:16px;">
+        Du bist Konsum-Detektiv. Vor jeder Ermittlungsetappe öffnest du eine <strong style="color:var(--primary)">Recherche-Akte</strong> mit dem Wissen, das du brauchst.
+        <strong>Sobald du die Etappe startest, kommst du nicht mehr in die Akte zurück</strong> – lies aufmerksam und mach dir Notizen, falls du magst.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:18px; margin-bottom:10px;">So läuft es ab</h3>
+      <ul class="muted-list">
+        <li>Jede gelöste Etappe schaltet einen Buchstaben frei. Am Ende ergibt sich das Lösungswort.</li>
+        <li>Falsche Eingaben werden markiert und erklärt – du darfst es erneut versuchen.</li>
+        <li>Am Ende bekommst du deinen Bestätigungscode und zwei Dateien, die du in Moodle hochlädst.</li>
+      </ul>
+      <div style="margin-top:14px; font-size:13.5px; color:var(--ink-mute);">
+        Angemeldet als <strong style="color:var(--ink)">${escapeHtml(state.firstName)} ${escapeHtml(state.lastName)}</strong> · geb. ${escapeHtml(state.birthDate)}
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary btn-arrow" onclick="goLibrary(1)">Erste Recherche-Akte öffnen</button>
+    </div>
+  `;
+}
+
+/* ============================================================
+   ROOM HEADER / FOOTER (shared)
+   ============================================================ */
+function roomHeader(room){
+  return `
+    <div class="room-header">
+      <div class="room-number">${String(room.id).padStart(2,'0')}</div>
+      <div class="room-meta">
+        <div class="room-location">${room.location}</div>
+        <div class="room-name">${room.name}</div>
+      </div>
+    </div>
+    <div class="card card-accent"><div class="briefing"><span class="speaker">Ermittlungsetappe ${String(room.id).padStart(2,'0')}</span>${room.briefing}</div></div>
+    <p class="body-lg" style="margin:8px 0 0;"><strong style="color:var(--accent); font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em;">DEINE AUFGABE</strong></p>
+    <p class="body-lg">${room.task}</p>
+  `;
+}
+function roomFooter(hintText,checkFn){
+  return `
+    <div id="statusBox"></div>
+    <div id="hintBox" class="hint-box"><span class="label">Hinweis</span>${hintText}</div>
+    <div class="btn-row"><button class="btn btn-primary" onclick="${checkFn}">Prüfen</button><button class="hint-btn" onclick="showHint()">Hinweis anzeigen</button></div>
+  `;
+}
+window.showHint=()=>{ const h=document.getElementById('hintBox'); if(h) h.classList.add('show'); };
+function showStatus(type,label,msg){
+  const box=document.getElementById('statusBox'); if(!box) return;
+  box.innerHTML=`<div class="status status-${type} show"><span class="label">${label}</span>${msg}</div>`;
+}
+
+/* ============================================================
+   LIBRARIES (Recherche-Akten)
+   ============================================================ */
+const LIBRARIES=[
+  // --- B1 ---
+  { id:1, location:'Recherche-Akte 01', name:'Bedürfnis, Wunsch oder Werbetrick?',
+    intro:'Bevor wir dem Sneaker durch die Welt folgen: Warum kauft Lina – oder du – überhaupt einen neuen Sneaker? Drei Begriffe musst du dafür auseinanderhalten können.',
+    content:`
+      <div class="lib-section">
+        <div class="lib-section-title">Konsum – was ist das eigentlich?</div>
+        <p><strong>Konsum</strong> bedeutet einfach: Wir kaufen Sachen oder Dienstleistungen und nutzen sie. Essen, Kleidung, ein Kinobesuch, das neue Handy – alles Konsum.</p>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Die drei Begriffe, die du brauchst</div>
+        <div class="lib-grid">
+          <div class="lib-card">
+            <div class="lib-card-sub">Begriff 1</div>
+            <div class="lib-card-title">Bedürfnis</div>
+            <div class="lib-card-body">Etwas, das jeder Mensch zum Leben <em>braucht</em>: essen, schlafen, ein Dach über dem Kopf, Kleidung, die warm hält.</div>
+          </div>
+          <div class="lib-card">
+            <div class="lib-card-sub">Begriff 2</div>
+            <div class="lib-card-title">Wunsch</div>
+            <div class="lib-card-body">Eine ganz bestimmte Art, das Bedürfnis zu erfüllen: nicht <em>irgendein</em> Schuh – sondern genau dieser Marken-Sneaker in Neon-Pink.</div>
+          </div>
+          <div class="lib-card">
+            <div class="lib-card-sub">Begriff 3</div>
+            <div class="lib-card-title">Werbetrick</div>
+            <div class="lib-card-body">Methode, mit der Firmen dich zum Kaufen bringen wollen. Erkennst du an einem Druck-Gefühl: „Schnell, sonst weg!" oder „Alle haben das schon."</div>
+          </div>
+        </div>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Wie viel Geld geben Jugendliche aus?</div>
+        <p>Kinder zwischen 12 und 13 bekommen laut Deutschem Jugendinstitut (DJI) im Schnitt rund <strong>25 bis 30 Euro Taschengeld pro Monat</strong>. Dazu kommen oft Geldgeschenke. Untersuchungen zeigen: Klamotten und Schuhe gehören zu den größten Posten, für die Jugendliche ihr Geld ausgeben.</p>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Vier typische Werbetricks</div>
+        <ul class="lib-bullets">
+          <li><strong>Verknappung</strong> – „Nur noch 3 Stück!" Soll dich nervös machen.</li>
+          <li><strong>Influencer-Werbung</strong> – Dein Lieblings-YouTuber zeigt das Produkt. Wirkt wie eine ehrliche Empfehlung, ist aber bezahlt.</li>
+          <li><strong>Statistik-Trick</strong> – „95 % aller Schüler vertrauen dieser Marke." Klingt überzeugend – die Zahl kommt aber oft aus einer kleinen, hauseigenen Umfrage.</li>
+          <li><strong>Gruppendruck</strong> – „Alle in deiner Klasse tragen das schon." Das ist meistens gelogen, wirkt aber.</li>
+        </ul>
+      </div>
+      <div class="note-box">
+        <span class="note-label">Faustregel</span>
+        Wenn eine Aussage dich zum schnellen Kaufen drängt oder ein „mein Leben ist erst komplett, wenn ich das habe"-Gefühl auslöst – das ist meistens ein Werbetrick.
+      </div>`,
+    target:'Etappe 01' },
+
+  // --- B2 ---
+  { id:2, location:'Recherche-Akte 02', name:'Vom Hafen zur Haustür',
+    intro:'Wie kommt der Sneaker überhaupt zu Lina nach Hause? Spoiler: Er hat schon eine ziemliche Weltreise hinter sich. Aber Vorsicht: Nicht jeder Transportweg ist so umweltfreundlich, wie er auf den ersten Blick wirkt.',
+    content:`
+      <div class="lib-section">
+        <div class="lib-section-title">Globalisierung am Sneaker</div>
+        <p>Die meisten Sneaker werden in Asien hergestellt – zum Beispiel in Vietnam, Indonesien oder China. Damit der Schuh bei Lina in Deutschland ankommt, muss er also einmal um die halbe Welt reisen. Das Zauberwort dafür heißt <strong>Globalisierung</strong>: Waren, Geld und Menschen werden überall auf der Welt verbunden.</p>
+      </div>
+
+      <div class="lib-section">
+        <div class="lib-section-title">Drei Transportmittel — und ihr CO₂-Ausstoß</div>
+        <p>Im Diagramm siehst du, wie viel klimaschädliches CO₂ jedes Verkehrsmittel ausstößt, wenn es <strong>1 Kilogramm Ware 1 Kilometer weit</strong> transportiert. Diese Maßeinheit nennt man „Gramm pro Tonnenkilometer".</p>
+        <div class="chart-wrap">
+          <svg viewBox="0 0 480 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Säulendiagramm CO₂-Ausstoß pro Tonnenkilometer">
+            <!-- Titel -->
+            <text x="240" y="20" text-anchor="middle" fill="#1e2a1f" font-family="Inter,sans-serif" font-size="12" font-weight="600">CO₂-Ausstoß pro Tonnenkilometer</text>
+            <text x="240" y="36" text-anchor="middle" fill="#6a7a6c" font-family="Inter,sans-serif" font-size="10">(in Gramm – je niedriger, desto klimafreundlicher pro kg Ware)</text>
+
+            <!-- Gitterlinien horizontal -->
+            <line x1="70" y1="60" x2="450" y2="60" stroke="#dadada" stroke-width="0.6" stroke-dasharray="2 3"/>
+            <line x1="70" y1="108" x2="450" y2="108" stroke="#dadada" stroke-width="0.6" stroke-dasharray="2 3"/>
+            <line x1="70" y1="156" x2="450" y2="156" stroke="#dadada" stroke-width="0.6" stroke-dasharray="2 3"/>
+            <line x1="70" y1="204" x2="450" y2="204" stroke="#dadada" stroke-width="0.6" stroke-dasharray="2 3"/>
+            <line x1="70" y1="252" x2="450" y2="252" stroke="#dadada" stroke-width="0.6" stroke-dasharray="2 3"/>
+
+            <!-- Y-Achse -->
+            <line x1="70" y1="60" x2="70" y2="300" stroke="#3d4f3f" stroke-width="1"/>
+            <!-- X-Achse (Basislinie) -->
+            <line x1="70" y1="300" x2="450" y2="300" stroke="#3d4f3f" stroke-width="1"/>
+
+            <!-- Y-Beschriftung -->
+            <text x="64" y="64" text-anchor="end" fill="#3d4f3f" font-family="Inter,sans-serif" font-size="10">1000</text>
+            <text x="64" y="112" text-anchor="end" fill="#3d4f3f" font-family="Inter,sans-serif" font-size="10">800</text>
+            <text x="64" y="160" text-anchor="end" fill="#3d4f3f" font-family="Inter,sans-serif" font-size="10">600</text>
+            <text x="64" y="208" text-anchor="end" fill="#3d4f3f" font-family="Inter,sans-serif" font-size="10">400</text>
+            <text x="64" y="256" text-anchor="end" fill="#3d4f3f" font-family="Inter,sans-serif" font-size="10">200</text>
+            <text x="64" y="304" text-anchor="end" fill="#3d4f3f" font-family="Inter,sans-serif" font-size="10">0</text>
+
+            <!-- Y-Achsentitel -->
+            <text x="22" y="180" text-anchor="middle" fill="#3d4f3f" font-family="Inter,sans-serif" font-size="10" transform="rotate(-90 22 180)">Gramm CO₂ / tkm</text>
+
+            <!-- Säule 1: Containerschiff (15 g) — sehr klein, daher hier mit „Lupe" -->
+            <rect x="110" y="296.4" width="80" height="3.6" fill="#3f7a4d"/>
+            <text x="150" y="288" text-anchor="middle" fill="#1e2a1f" font-family="Inter,sans-serif" font-size="11" font-weight="700">15 g</text>
+
+            <!-- Säule 2: LKW (100 g) -->
+            <rect x="220" y="276" width="80" height="24" fill="#b07a2a"/>
+            <text x="260" y="268" text-anchor="middle" fill="#1e2a1f" font-family="Inter,sans-serif" font-size="11" font-weight="700">100 g</text>
+
+            <!-- Säule 3: Flugzeug (1000 g) -->
+            <rect x="330" y="60" width="80" height="240" fill="#b1442f"/>
+            <text x="370" y="52" text-anchor="middle" fill="#1e2a1f" font-family="Inter,sans-serif" font-size="11" font-weight="700">ca. 1.000 g</text>
+
+            <!-- X-Beschriftung -->
+            <text x="150" y="318" text-anchor="middle" fill="#1e2a1f" font-family="Inter,sans-serif" font-size="11" font-weight="600">Containerschiff</text>
+            <text x="260" y="318" text-anchor="middle" fill="#1e2a1f" font-family="Inter,sans-serif" font-size="11" font-weight="600">LKW</text>
+            <text x="370" y="318" text-anchor="middle" fill="#1e2a1f" font-family="Inter,sans-serif" font-size="11" font-weight="600">Frachtflugzeug</text>
+          </svg>
+          <div class="chart-caption">Vergleichswerte für den Güterverkehr; Bandbreiten je nach Schiffsgröße und Auslastung.<br>Quellen: NABU, Umweltbundesamt, Hafen Hamburg, IMO</div>
+        </div>
+        <p>Was du sofort siehst: Das <strong>Frachtflugzeug</strong> ist eine ganz andere Liga. Pro Kilogramm Ware stößt es rund <strong>60-mal mehr CO₂</strong> aus als ein Containerschiff und etwa 10-mal so viel wie ein LKW. Der Grund dafür: Schiffe transportieren riesige Mengen gleichzeitig. Verteilt man die Klimabelastung auf jedes einzelne Kilogramm Ware, wird sie sehr klein.</p>
+      </div>
+
+      <div class="lib-section">
+        <div class="lib-section-title">Aber: Schiffe sind nicht so „sauber", wie sie wirken</div>
+        <p>Beim CO₂ schneidet das Containerschiff pro Kilogramm super ab – beim Rest leider nicht. Schiffe verbrennen meistens <strong>Schweröl</strong>, einen besonders billigen und schmutzigen Treibstoff. Dadurch stoßen sie sehr viel von folgenden Luftschadstoffen aus:</p>
+        <div class="pollutants-grid">
+          <div class="pollutant-card">
+            <div class="pc-name">Schwefeldioxid (SO₂)</div>
+            <div class="pc-body">Reizt Atemwege und Lunge, lässt sauren Regen entstehen, der Wälder und Seen schädigt.</div>
+          </div>
+          <div class="pollutant-card">
+            <div class="pc-name">Stickoxide (NOₓ)</div>
+            <div class="pc-body">Schädigen ebenfalls die Atemwege und tragen zu Smog und Ozonbildung bei.</div>
+          </div>
+          <div class="pollutant-card">
+            <div class="pc-name">Feinstaub</div>
+            <div class="pc-body">Winzige Teilchen, die tief in die Lunge eindringen können – ein gesundheitliches Risiko.</div>
+          </div>
+        </div>
+        <p style="margin-top:14px;">Eine Zahl zum Vergleich: Im Schiffstreibstoff darf der Schwefel-Anteil bis zu <strong>3,5 Prozent</strong> betragen. Beim Diesel, den LKWs tanken, sind es nur <strong>0,001 Prozent</strong>. Das ist ungefähr <strong>3.500-mal weniger</strong> – Schiffstreibstoff ist also <em>extrem</em> viel schmutziger als das, was bei uns an der Tankstelle verkauft wird.</p>
+      </div>
+
+      <div class="lib-section">
+        <div class="lib-section-title">Das große Bild</div>
+        <p>Insgesamt ist die weltweite Schifffahrt für rund <strong>3 Prozent</strong> aller von Menschen verursachten CO₂-Emissionen verantwortlich. Das klingt nach wenig – aber das sind jedes Jahr etwa <strong>1 Milliarde Tonnen CO₂</strong>. Damit verursacht die Schifffahrt insgesamt mehr CO₂ als ganz Deutschland in einem Jahr.</p>
+      </div>
+
+      <div class="note-box">
+        <span class="note-label">Differenzierte Faustregel</span>
+        Pro Kilogramm Ware schneidet das Containerschiff am besten ab – das stimmt. ABER: kein Transportmittel ist „sauber". Lange Lieferwege bedeuten immer auch Luftverschmutzung. Am umweltfreundlichsten ist deshalb immer: <strong>weniger und kürzer transportieren</strong>.
+      </div>`,
+    target:'Etappe 02' },
+
+  // --- B3 ---
+  { id:3, location:'Recherche-Akte 03', name:'Die Spuren der Fabrik',
+    intro:'Jemand hat den Sneaker zusammengenäht. Wer? Unter welchen Bedingungen? Diese Etappe schaut hinter die Türen der Fabriken.',
+    content:`
+      <div class="lib-section">
+        <div class="lib-section-title">Wo werden Sneaker hergestellt?</div>
+        <p>Die meisten unserer Klamotten und Schuhe werden nicht in Deutschland genäht. Stattdessen produzieren Firmen ihre Sachen vor allem in:</p>
+        <ul class="lib-bullets">
+          <li><strong>Bangladesch</strong></li>
+          <li><strong>Vietnam</strong></li>
+          <li><strong>Indonesien</strong></li>
+          <li><strong>China</strong></li>
+        </ul>
+        <p style="margin-top:8px;">Warum dort? Die Löhne sind viel niedriger, es gibt viele Arbeitskräfte, und die Vorschriften zum Schutz der Arbeiter sind oft weniger streng als bei uns.</p>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Wie sieht die Arbeit dort oft aus?</div>
+        <p>In vielen Textilfabriken arbeiten die Menschen <strong>10 bis 14 Stunden am Tag</strong>, manchmal sechs Tage die Woche. Der Lohn liegt zwar oft beim gesetzlichen Mindestlohn des Landes – aber dieser reicht meistens nicht aus, um davon wirklich leben zu können. Gewerkschaften (also Gruppen, die für die Rechte der Arbeiter kämpfen) sind oft verboten oder nicht erlaubt. In manchen Fabriken arbeiten sogar <strong>Kinder unter 14 Jahren</strong>.</p>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Rana Plaza · 24. April 2013</div>
+        <p>An diesem Tag passierte in Bangladesch die schlimmste Katastrophe in der Geschichte der Textilindustrie. In <strong>Sabhar</strong>, einem Vorort der Hauptstadt Dhaka, stürzte das achtstöckige Fabrikgebäude <strong>Rana Plaza</strong> komplett ein. In dem Gebäude waren mehrere Textilfabriken untergebracht, die Kleidung für bekannte westliche Marken nähten – darunter auch deutsche Firmen.</p>
+        <p>Schon am Tag <em>vor</em> dem Einsturz waren große Risse in den Wänden entdeckt worden. Die Arbeiter wollten aus Angst nicht ins Gebäude. Ihre Chefs drohten ihnen aber, ihnen den Lohn zu streichen, wenn sie nicht zur Arbeit kämen. Viele hatten keine Wahl – sie gingen rein.</p>
+        <p>Am nächsten Morgen, kurz nach 9 Uhr, brach das Haus zusammen. <strong>1.135 Menschen starben, 2.438 wurden verletzt</strong>, viele für ihr ganzes Leben behindert. Die meisten Opfer waren junge Näherinnen.</p>
+        <p>Rana Plaza wurde weltweit zum Wendepunkt. Plötzlich diskutierten Politiker, Firmen und Verbraucher überall: Wer ist verantwortlich für die Bedingungen, unter denen unsere Kleidung hergestellt wird? Aus dieser Frage sind später Gesetze entstanden, die du in einer späteren Etappe noch kennenlernst.</p>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Wichtig: nicht alles ist schwarz oder weiß</div>
+        <p>Es wäre zu einfach zu sagen: „Alle Fabriken in Asien sind böse." Diese Jobs sichern für viele Familien überhaupt ein Einkommen. Die Frage ist deshalb nicht „Fabrik ja oder nein?", sondern: <strong>Zu welchen Bedingungen wird gearbeitet?</strong></p>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Faire Bedingungen erkennt man an …</div>
+        <ul class="lib-bullets">
+          <li>schriftlichen Tarifverträgen mit Gewerkschaften</li>
+          <li>Schutzkleidung, die gestellt wird</li>
+          <li>bezahltem Urlaub und Lohnfortzahlung bei Krankheit</li>
+          <li>regelmäßigen Brandschutzübungen und funktionierenden Notausgängen</li>
+        </ul>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">10 Jahre nach Rana Plaza — die Situation heute</div>
+        <p>Wie sieht es in den Textilfabriken Bangladeschs heute aus? Was hat sich seit Rana Plaza verbessert — und was bis heute nicht? Schau dir den folgenden tagesschau-Beitrag an (ca. 7 Minuten).</p>
+        <div class="video-wrap">
+          <iframe src="https://www.youtube-nocookie.com/embed/3qdKG_o0nH8?rel=0" title="tagesschau: Zehn Jahre nach dem Rana-Plaza-Einsturz" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="fallback-line">
+          <span>Video lädt nicht oder zeigt einen Fehler?</span>
+          <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=3qdKG_o0nH8" target="_blank" rel="noopener noreferrer">Direkt auf YouTube öffnen ↗</a>
+          <button class="btn btn-ghost" onclick="renderLibrary3Alt()">Stattdessen Textfassung lesen</button>
+        </div>
+      </div>`,
+    target:'Etappe 03' },
+
+  // --- B4 ---
+  { id:4, location:'Recherche-Akte 04', name:'Felder und Fasern',
+    intro:'Bevor der Sneaker zusammengenäht werden kann, müssen seine Bestandteile erst einmal wachsen oder gefördert werden. Diese Etappe schaut auf die Rohstoffe.',
+    content:`
+      <div class="lib-section">
+        <div class="lib-section-title">Aus was besteht ein Sneaker eigentlich?</div>
+        <p>Ein typischer Sneaker hat ziemlich viele Bestandteile:</p>
+        <ul class="lib-bullets">
+          <li><strong>Stoff oben</strong> – meist aus <strong>Baumwolle</strong> oder Polyester</li>
+          <li><strong>Sohle</strong> – aus <strong>Gummi</strong> und/oder Kunststoff (aus Erdöl)</li>
+          <li><strong>Schnürsenkel</strong> – meist Polyester (auch Erdöl)</li>
+          <li><strong>Innenfutter</strong> – Stoff, Schaumstoff</li>
+        </ul>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Baumwolle – die durstige Pflanze</div>
+        <p>Baumwolle ist eine der wichtigsten Pflanzen für unsere Kleidung. Sie hat aber ein Problem: Sie braucht <strong>extrem viel Wasser</strong>. Für ein einziges T-Shirt aus Baumwolle werden rund <strong>2.700 Liter Wasser</strong> verbraucht – so viel trinkt ein Mensch in etwa 2,5 Jahren!</p>
+        <p>Beim Anbau werden außerdem riesige Mengen an Giftstoffen gegen Schädlinge eingesetzt. Diese Giftstoffe heißen <strong>Pestizide</strong>. Baumwolle wächst auf nur ca. 2,5 % der weltweiten Ackerfläche – verbraucht aber rund ein Viertel aller weltweit eingesetzten Insektizide.</p>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Der Aralsee – einst riesig, heute fast weg</div>
+        <p>In Zentralasien lag einmal der <strong>Aralsee</strong>. Vor 60 Jahren war er der <strong>viertgrößte See der Welt</strong>. Heute ist davon nur noch ein Bruchteil übrig – der See ist auf rund <strong>10 Prozent</strong> seiner ursprünglichen Größe geschrumpft.</p>
+        <p>Warum? Die Sowjetunion (das Land, das damals diese Region regierte) hat in den 1960er-Jahren begonnen, das Wasser der Flüsse, die den See speisten, für riesige <strong>Baumwollfelder</strong> umzuleiten. Heute liegen dort, wo früher Wasser war, nur noch staubige Wüsten und rostige Schiffe. Fachleute nennen den geschrumpften Aralsee eine der schlimmsten von Menschen verursachten Umweltkatastrophen.</p>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Erdöl in der Sohle</div>
+        <p>Die Sohle deines Sneakers besteht oft aus Kunststoff. Und Kunststoff wird aus <strong>Erdöl</strong> hergestellt. Erdöl ist ein Rohstoff, der in der Erde lagert – aber er ist nicht endlos vorhanden. Irgendwann ist er aufgebraucht. Außerdem braucht es viel Energie, um aus Erdöl Kunststoff zu machen.</p>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Der Aralsee als Mahnmal — eine Reportage</div>
+        <p>Was bedeutet das ganz konkret für die Menschen, die heute noch dort leben? Welche Folgen hat das verschwundene Wasser für Gesundheit und Lebensgrundlage? Schau dir die folgende Weltspiegel-Reportage an.</p>
+        <div class="video-wrap">
+          <iframe src="https://www.youtube-nocookie.com/embed/Xaj7kKo9Ckc?rel=0" title="Weltspiegel: Aralsee trocknet aus – Umweltkatastrophe" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+        <div class="fallback-line">
+          <span>Video lädt nicht oder zeigt einen Fehler?</span>
+          <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=Xaj7kKo9Ckc" target="_blank" rel="noopener noreferrer">Direkt auf YouTube öffnen ↗</a>
+          <button class="btn btn-ghost" onclick="renderLibrary4Alt()">Stattdessen Textfassung lesen</button>
+        </div>
+      </div>
+      <div class="note-box">
+        <span class="note-label">Kerngedanke</span>
+        Schon bevor irgendjemand am Sneaker genäht hat, sind Tausende Liter Wasser, viele Pestizide und ein ganzer Liter Erdöl verbraucht worden. Konsum hat immer schon angefangen, lange bevor wir das Produkt in der Hand halten.
+      </div>`,
+    target:'Etappe 04' },
+
+  // --- B5 ---
+  { id:5, location:'Recherche-Akte 05', name:'Was wir der Erde aufladen',
+    intro:'Jetzt zoomen wir raus: Was bedeutet es für unseren Planeten, dass wir alle so viele Schuhe und Klamotten kaufen?',
+    content:`
+      <div class="lib-section">
+        <div class="lib-section-title">Ein Sneaker – 14 Kilogramm CO₂</div>
+        <p>Forscher haben einmal ausgerechnet, wie viel klimaschädliches Gas (CO₂) bei der Herstellung eines einzigen Paars Sneaker entsteht: ungefähr <strong>14 Kilogramm CO₂</strong>. Das ist ungefähr so viel, wie ein Auto auf <strong>70 Kilometern</strong> Fahrt ausstößt. Für <em>einen</em> Schuh.</p>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Fast Fashion – die schnelle Mode</div>
+        <p>Früher gab es im Modegeschäft zwei Kollektionen pro Jahr: Sommer und Winter. Heute bringen Firmen wie <strong>Shein</strong> oder <strong>H&amp;M</strong> jede Woche neue Modelle in die Läden und Apps. Das nennt man <strong>Fast Fashion</strong> – schnelle Mode.</p>
+        <p>Die Folge: Wir kaufen heute rund <strong>doppelt so viele</strong> Kleidungsstücke wie noch vor 20 Jahren – und tragen sie nur halb so lang. Vieles wird kaum getragen und schnell weggeworfen.</p>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Mikroplastik – die unsichtbare Verschmutzung</div>
+        <p>Wenn du Klamotten aus Kunststoff (Polyester, Nylon) wäschst, lösen sich bei jedem Waschgang winzige Plastikfasern. Sie sind so klein, dass kein Filter sie ganz rausbekommt. Sie heißen <strong>Mikroplastik</strong> und landen über das Abwasser in Flüssen, im Meer und am Ende sogar in den Fischen, die wir essen.</p>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Wohin gehen unsere Altkleider?</div>
+        <p>Viele Menschen geben aussortierte Kleidung in Altkleidercontainer ab und denken, sie wird in Deutschland von Bedürftigen weitergetragen. In Wahrheit gehen riesige Mengen ins Ausland: Ein großer Teil landet auf dem Markt von <strong>Kantamanto in Accra (Ghana)</strong> oder in der <strong>Atacama-Wüste in Chile</strong>. Was sich dort nicht verkaufen lässt – und das ist viel –, landet einfach in der Landschaft. Auf Satellitenbildern sieht man heute kilometerlange Müllberge aus westlicher Kleidung.</p>
+      </div>
+      <div class="note-box">
+        <span class="note-label">Großes Bild</span>
+        Konsum hat nicht nur ein Preisschild im Laden – er hat einen Preis für Wasser, Klima, Boden und Meere. Den Preis sieht man aber meist nicht im Geschäft.
+      </div>`,
+    target:'Etappe 05' },
+
+  // --- B6 ---
+  { id:6, location:'Recherche-Akte 06', name:'Lina handelt',
+    intro:'Letzte Etappe. Du weißt jetzt, was hinter dem Sneaker steckt. Wissen allein reicht aber nicht – jetzt geht es darum, was Lina (und du) damit anfangen können.',
+    content:`
+      <div class="lib-section">
+        <div class="lib-section-title">Vier Hebel für Verbraucher</div>
+        <p>Du bist nicht hilflos. Es gibt vier Stellschrauben, an denen jede Person drehen kann:</p>
+        <div class="lib-grid">
+          <div class="lib-card">
+            <div class="lib-card-sub">Hebel 1</div>
+            <div class="lib-card-title">Weniger kaufen</div>
+            <div class="lib-card-body">Frag dich vor jedem Kauf: <em>Brauche ich das wirklich? Habe ich nicht schon etwas Ähnliches?</em></div>
+          </div>
+          <div class="lib-card">
+            <div class="lib-card-sub">Hebel 2</div>
+            <div class="lib-card-title">Länger nutzen</div>
+            <div class="lib-card-body">Klamotten reparieren statt wegwerfen. Second Hand kaufen. Mit Freunden tauschen.</div>
+          </div>
+          <div class="lib-card">
+            <div class="lib-card-sub">Hebel 3</div>
+            <div class="lib-card-title">Bewusster kaufen</div>
+            <div class="lib-card-body">Auf Siegel achten, die zeigen: Hier wurde umwelt- und sozialverträglich produziert.</div>
+          </div>
+          <div class="lib-card">
+            <div class="lib-card-sub">Hebel 4</div>
+            <div class="lib-card-title">Politisch handeln</div>
+            <div class="lib-card-body">Sich für Gesetze einsetzen, die faire und nachhaltige Produktion vorschreiben.</div>
+          </div>
+        </div>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Vier wichtige Siegel</div>
+        <table class="lib-table">
+          <thead><tr><th>Siegel</th><th>Wofür es steht</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Fairtrade</strong></td><td>Faire Löhne und bessere Arbeitsbedingungen für Bauern und Arbeiter, vor allem in ärmeren Ländern.</td></tr>
+            <tr><td><strong>GOTS</strong></td><td>Steht für Textilien aus Bio-Baumwolle plus soziale Standards bei der Herstellung. (Die Abkürzung steht für „Global Organic Textile Standard".)</td></tr>
+            <tr><td><strong>Grüner Knopf</strong></td><td>Das staatliche deutsche Siegel für Textilien, die sozial und umweltgerecht hergestellt werden. Gibt es seit 2019.</td></tr>
+            <tr><td><strong>Blauer Engel</strong></td><td>Das älteste deutsche Umweltsiegel. Wird für besonders umweltfreundliche Produkte vergeben – auch für Kleidung.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="lib-section">
+        <div class="lib-section-title">Das Lieferkettengesetz – einfach erklärt</div>
+        <p>Seit 2023 gibt es in Deutschland ein Gesetz mit einem sperrigen Namen: das <strong>Lieferkettengesetz</strong>. Es funktioniert so: Große Firmen (ab 1.000 Beschäftigten) müssen in ihrer ganzen Lieferkette – also auch bei ihren Zulieferern im Ausland – darauf achten, dass <strong>Menschenrechte eingehalten</strong> werden. Sie müssen zum Beispiel dafür sorgen, dass</p>
+        <ul class="lib-bullets">
+          <li>keine Kinderarbeit in ihren Fabriken stattfindet,</li>
+          <li>niemand zu Sklavenarbeit gezwungen wird,</li>
+          <li>die Arbeitsplätze sicher sind (zum Beispiel mit funktionierendem Brandschutz – siehe Rana Plaza).</li>
+        </ul>
+        <p style="margin-top:8px;">Wenn eine Firma das nicht prüft, drohen Bußgelder. Das Gesetz ist nicht perfekt – aber es ist ein wichtiger Schritt, der nur deshalb existiert, weil viele Menschen sich dafür eingesetzt haben.</p>
+      </div>
+      <div class="note-box">
+        <span class="note-label">Schlussgedanke</span>
+        Du allein rettest die Welt nicht. Aber viele Linas zusammen schon. Genau darum geht es jetzt im letzten Rätsel.
+      </div>`,
+    target:'Etappe 06' },
+];
+
+function renderLibrary(idx){
+  state.screen='lib'+(idx+1); renderSeals();
+  window.scrollTo({top:0,behavior:'instant'});
+  const lib=LIBRARIES[idx];
+  root.innerHTML=`
+    ${libraryBanner()}
+    <div class="room-header">
+      <div class="room-number" style="color:var(--primary);">A${idx+1}</div>
+      <div class="room-meta"><div class="room-location">${lib.location}</div><div class="room-name">${lib.name}</div></div>
+    </div>
+    <p class="lede" style="margin-bottom:24px;">${lib.intro}</p>
+    ${lib.content}
+    ${libraryWarningBar()}
+    <div class="btn-row"><button class="btn btn-primary btn-arrow" onclick="goRoom(${idx+1})">Zur ${lib.target}</button></div>
+  `;
+}
+
+function libraryBanner(){
+  return `
+    <div class="library-banner">
+      <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 9h1M9 13h6M9 17h6"/></svg>
+      <div>Dies ist eine <strong>Recherche-Akte</strong>. Hier findest du das Wissen für die nächste Etappe.
+        <span class="warn">⚠ Sobald du die Etappe startest, kommst du nicht mehr hierher zurück. Lies in Ruhe.</span>
+      </div>
+    </div>`;
+}
+function libraryWarningBar(){
+  return `
+    <div class="lib-warning-bar">
+      <svg viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <div>Hast du alles gelesen? <strong>Ab der Etappe gibt es keinen Weg zurück.</strong></div>
+    </div>`;
+}
+window.goLibrary=(n)=>{ renderLibrary(n-1); };
+
+/* ============================================================
+   TEXTFASSUNGEN (Fallback bei Video-Problemen)
+   ============================================================ */
+window.renderLibrary3Alt=()=>{
+  state.screen='lib3alt'; renderSeals();
+  window.scrollTo({top:0,behavior:'instant'});
+  root.innerHTML=`
+    ${libraryBanner()}
+    <div class="room-header">
+      <div class="room-number" style="color:var(--primary);">A3</div>
+      <div class="room-meta"><div class="room-location">Recherche-Akte 03 · Textfassung</div><div class="room-name">10 Jahre nach Rana Plaza</div></div>
+    </div>
+    <div class="alt-banner">
+      <p>Dies ist die <strong>Textfassung</strong> des tagesschau-Beitrags – inhaltlich gleichwertig. Von hier aus geht es ganz normal weiter zur Etappe.</p>
+    </div>
+    <p class="lede" style="margin-bottom:22px;">Eine Reporterin der tagesschau und der Korrespondent Oliver Meier (Neu-Delhi) berichten zehn Jahre nach dem Einsturz von Rana Plaza, was sich in Bangladeschs Textilindustrie verändert hat – und was nicht.</p>
+
+    <div class="lib-section">
+      <div class="lib-section-title">Bei der Sicherheit: vieles besser — aber nicht überall</div>
+      <p>In den größeren Fabriken, die vor allem für europäische und westliche Marken produzieren, hat sich seit Rana Plaza wirklich etwas getan. Der Korrespondent hat dort Feuerlöscher in jeder Ecke gesehen, breite Notausgänge, eigene Wasserpumpen und sogar eine eigene Klinik auf dem Fabrikgelände. Ein Näher namens Mohammed Rubel Mia sagt im Beitrag: „Ich fühle mich zu 100 Prozent sicher."</p>
+      <p>Aber: Bei vielen kleineren Fabriken und Subunternehmern, die „unter dem Radar" arbeiten, sind die Sicherheitsstandards laut Gewerkschaften <strong>noch immer nicht hoch genug</strong>.</p>
+    </div>
+
+    <div class="lib-section">
+      <div class="lib-section-title">Bei den Löhnen: kaum Fortschritt</div>
+      <p>Der Mindestlohn in der Textilindustrie liegt bei rund <strong>70 Euro im Monat</strong>. Davon kann man in Bangladesch kaum leben, schon gar nicht bei hoher Inflation. Mohammed Rubel Mia erzählt, dass das meiste, was seine Familie braucht, sein Vater bezahlt – ihm selbst bleibt fast nichts übrig.</p>
+      <p>Die Gewerkschaften fordern deshalb eine deutliche Erhöhung des Mindestlohns auf rund <strong>200 Euro im Monat</strong> – also fast das Dreifache. Arbeitgeber und Arbeitnehmer sind in dieser Frage allerdings weit voneinander entfernt.</p>
+    </div>
+
+    <div class="lib-section">
+      <div class="lib-section-title">Die Macht der Gewerkschaften</div>
+      <p>In Bangladesch ist es <strong>sehr schwer</strong>, Gewerkschaften oder Betriebsräte zu gründen – viele Firmen versuchen, das zu verhindern. Aber die Gewerkschaften, die es gibt, setzen sich für die Rechte der Beschäftigten ein und haben zum Beispiel über einen Entschädigungsfonds verhandelt: <strong>30 Millionen US-Dollar</strong> wurden für die rund 6.000 Betroffenen von Rana Plaza ausgezahlt – im Durchschnitt etwa <strong>2.000 Euro pro Person</strong>. Das ist sehr wenig für ein Menschenleben.</p>
+    </div>
+
+    <div class="lib-section">
+      <div class="lib-section-title">Was, wenn die Löhne steigen?</div>
+      <p>Die Sorge in Bangladesch ist groß, dass die Textilindustrie in noch ärmere Länder abwandern könnte, falls die Löhne kräftig steigen. Die Marge bei Textilien ist eng, und Unternehmen achten auf ihre Kosten.</p>
+    </div>
+
+    <div class="lib-section">
+      <div class="lib-section-title">Hilft teurer kaufen?</div>
+      <p>Eine wichtige Erkenntnis aus dem Beitrag: <strong>Auch teure Luxuslabels lassen in Bangladesch produzieren</strong> – z. B. Calvin Klein oder Tommy Hilfiger. „Made in Bangladesh", „Made in Pakistan" oder „Made in Sri Lanka" findet sich in fast jedem Kleiderschrank. Wer teuer kauft, kauft also <strong>nicht automatisch unter besseren Bedingungen</strong>. Hinschauen, Siegel beachten und politischen Druck machen ist deshalb wichtiger als der Preis allein.</p>
+    </div>
+
+    ${libraryWarningBar()}
+    <div class="btn-row">
+      <button class="btn btn-primary btn-arrow" onclick="goRoom(3)">Zur Etappe 03</button>
+      <button class="btn btn-ghost" onclick="goLibrary(3)">Zurück zum Video</button>
+    </div>
+  `;
+};
+
+window.renderLibrary4Alt=()=>{
+  state.screen='lib4alt'; renderSeals();
+  window.scrollTo({top:0,behavior:'instant'});
+  root.innerHTML=`
+    ${libraryBanner()}
+    <div class="room-header">
+      <div class="room-number" style="color:var(--primary);">A4</div>
+      <div class="room-meta"><div class="room-location">Recherche-Akte 04 · Textfassung</div><div class="room-name">Der Aralsee — eine Umweltkatastrophe</div></div>
+    </div>
+    <div class="alt-banner">
+      <p>Dies ist die <strong>Textfassung</strong> der Weltspiegel-Reportage – inhaltlich gleichwertig. Von hier aus geht es ganz normal weiter zur Etappe.</p>
+    </div>
+    <p class="lede" style="margin-bottom:22px;">Die Reportage zeigt, was passiert ist, als die Sowjetunion in den 1960er-Jahren riesige Mengen Wasser aus den Flüssen umleitete, die den Aralsee speisten – und welche Folgen das bis heute für die Menschen vor Ort hat.</p>
+
+    <div class="lib-section">
+      <div class="lib-section-title">Vom viertgrößten See der Welt zur Wüste</div>
+      <p>Wo einst der <strong>viertgrößte Binnensee der Erde</strong> lag, erstreckt sich heute eine weite, lebensfeindliche Wüste. Verrostete Schiffswracks liegen kilometerweit vom heutigen Ufer entfernt im Sand – stumme Zeugen einer einst blühenden Fischereiindustrie.</p>
+    </div>
+
+    <div class="lib-section">
+      <div class="lib-section-title">Wie es dazu kam</div>
+      <p>Der Niedergang begann in den <strong>1960er-Jahren</strong>: Die Sowjetunion leitete die beiden großen Zuflüsse des Sees, <strong>Amudarja</strong> und <strong>Syrdarja</strong>, massiv um – um inmitten der Steppe riesige <strong>Baumwollplantagen</strong> künstlich zu bewässern.</p>
+    </div>
+
+    <div class="lib-section">
+      <div class="lib-section-title">Die Folgen für die Menschen</div>
+      <p>Die Folgen sind bis heute katastrophal:</p>
+      <ul class="lib-bullets">
+        <li>Das verbliebene Wasser ist <strong>extrem salzhaltig</strong> und mit <strong>Pestiziden</strong> aus der Landwirtschaft verseucht.</li>
+        <li>Staubstürme tragen das giftige Salz-Chemikalien-Gemisch über <strong>Hunderte von Kilometern</strong> in die umliegenden Dörfer.</li>
+        <li>Die Menschen vor Ort leiden überdurchschnittlich oft unter <strong>Atemwegserkrankungen, Krebs und einer hohen Kindersterblichkeit</strong>.</li>
+        <li>Wo früher Fischerboote tonnenweise Fisch fingen, gibt es heute keine Lebensgrundlage mehr. Viele Menschen mussten ihre Heimat verlassen, ganze Orte sind verödet.</li>
+      </ul>
+    </div>
+
+    <div class="lib-section">
+      <div class="lib-section-title">Ein kleiner Teilerfolg im Norden</div>
+      <p>Trotz internationaler Bemühungen bleibt der südliche, weitaus größere Teil des Aralsees (vor allem in <strong>Usbekistan</strong>) nahezu unrettbar verloren. Ein kleiner Teilerfolg gelang nur im <strong>nördlichen Teil</strong>: Der <strong>Kokaral-Damm</strong> in <strong>Kasachstan</strong> konnte einen kleinen Teil des Wassers stabilisieren.</p>
+    </div>
+
+    <div class="lib-section">
+      <div class="lib-section-title">Die Botschaft der Reportage</div>
+      <p>Die Dokumentation zeigt, wie rücksichtslos ökonomische Interessen über ökologische Nachhaltigkeit gestellt wurden – und wie schwer es ist, ein einmal zerstörtes Ökosystem wiederzubeleben. Sie ist ein eindringlicher Appell gegen den sorglosen Umgang mit den globalen Wasserressourcen.</p>
+    </div>
+
+    ${libraryWarningBar()}
+    <div class="btn-row">
+      <button class="btn btn-primary btn-arrow" onclick="goRoom(4)">Zur Etappe 04</button>
+      <button class="btn btn-ghost" onclick="goLibrary(4)">Zurück zum Video</button>
+    </div>
+  `;
+};
+
+/* ============================================================
+   ROOM DATA
+   ============================================================ */
+const ROOMS=[
+  { id:1, location:'Ermittlungsetappe 01', name:'Bedürfnis, Wunsch oder Werbetrick?',
+    briefing:'Bevor du dem Sneaker hinterherreist, sortiere erst einmal Aussagen aus dem Alltag in die richtigen Schubladen.',
+    task:'Ordne jede Aussage entweder als <strong>Bedürfnis</strong>, <strong>Wunsch</strong> oder <strong>Werbetrick</strong> ein.' },
+  { id:2, location:'Ermittlungsetappe 02', name:'Vom Hafen zur Haustür',
+    briefing:'Drei Transportmittel haben den Sneaker auf die Reise gebracht. Welche Beschreibung gehört zu welchem?',
+    task:'Ordne jedem Transportmittel die passende Beschreibung zu.' },
+  { id:3, location:'Ermittlungsetappe 03', name:'Die Spuren der Fabrik',
+    briefing:'Du stehst vor zwei Fabriktoren. Hinter dem einen läuft es fair, hinter dem anderen nicht. Welche Bedingung gehört wohin?',
+    task:'Klassifiziere jede Bedingung als <strong>fair</strong> oder als <strong>problematisch</strong>.' },
+  { id:4, location:'Ermittlungsetappe 04', name:'Felder und Fasern',
+    briefing:'Spuren auf der Baumwollplantage und an der Sohle. Was passiert eigentlich vor der Fabrik?',
+    task:'Vervollständige den Bericht. Wähle für jede Lücke den passenden Begriff oder die passende Zahl aus.' },
+  { id:5, location:'Ermittlungsetappe 05', name:'Was wir der Erde aufladen',
+    briefing:'Du fügst die großen Folgen zusammen. Welche Aussagen über unseren Konsum stimmen wirklich?',
+    task:'Wähle <strong>alle</strong> Aussagen aus, die richtig sind. Achtung: Es sind auch falsche Behauptungen dabei.' },
+  { id:6, location:'Ermittlungsetappe 06', name:'Lina handelt',
+    briefing:'Letzte Etappe. Erkenne die Siegel und finde den Schlussstein.',
+    task:'Ordne zuerst jedem Siegel seine Bedeutung zu. Dann fülle die letzte Antwort aus.' },
+];
+
+/* ---------- Room 1: Klassifikation in 3 Kategorien ---------- */
+const PUZZLE_R1=[
+  {id:'r1a', text:'„Ich muss heute etwas essen."', correct:'beduerfnis'},
+  {id:'r1b', text:'„Ich brauche genau das Modell, das Lina trägt."', correct:'wunsch'},
+  {id:'r1c', text:'„Nur heute -30 % – nur noch 3 Stück verfügbar!"', correct:'werbetrick'},
+  {id:'r1d', text:'„Im Winter brauche ich warme Schuhe."', correct:'beduerfnis'},
+  {id:'r1e', text:'„Mein Lieblings-YouTuber trägt diese Marke."', correct:'werbetrick'},
+  {id:'r1f', text:'„Ich hätte gern den limitierten Sneaker in Neon-Pink."', correct:'wunsch'},
+  {id:'r1g', text:'„95 % der Schüler vertrauen dieser Marke."', correct:'werbetrick'},
+  {id:'r1h', text:'„Ich brauche Kleidung, damit ich nicht friere."', correct:'beduerfnis'},
+];
+let r1Choice={}; let r1Submitted=false; let r1Order=[];
+function renderRoom1(){
+  state.screen='room1'; renderSeals(); window.scrollTo({top:0,behavior:'instant'});
+  r1Choice={}; r1Submitted=false;
+  r1Order=shuffle(PUZZLE_R1);
+  const room=ROOMS[0];
+  const rows=r1Order.map(it=>`
+    <div class="classify-row" id="r1row-${it.id}">
+      <div class="classify-text">${it.text}</div>
+      <div class="classify-btns">
+        <button class="classify-btn" id="r1-${it.id}-beduerfnis" onclick="pickR1('${it.id}','beduerfnis')">Bedürfnis</button>
+        <button class="classify-btn" id="r1-${it.id}-wunsch" onclick="pickR1('${it.id}','wunsch')">Wunsch</button>
+        <button class="classify-btn" id="r1-${it.id}-werbetrick" onclick="pickR1('${it.id}','werbetrick')">Werbetrick</button>
+      </div>
+    </div>`).join('');
+  root.innerHTML=`${roomHeader(room)}<div class="card">${rows}</div>${roomFooter('Bedürfnis = etwas, das jeder Mensch zum Leben braucht. Wunsch = eine ganz bestimmte Art, das Bedürfnis zu erfüllen. Werbetrick = will dich zum schnellen Kaufen drängen.','checkR1()')}`;
+}
+window.pickR1=(id,val)=>{
+  if(r1Submitted) return;
+  r1Choice[id]=val;
+  ['beduerfnis','wunsch','werbetrick'].forEach(v=>{
+    document.getElementById(`r1-${id}-${v}`).classList.toggle('active',v===val);
+  });
+};
+window.checkR1=()=>{
+  if(Object.keys(r1Choice).length<PUZZLE_R1.length){ showStatus('warning','Noch unvollständig','Bitte ordne jede Aussage zu.'); return; }
+  let allCorrect=true; const errors=[];
+  const label={beduerfnis:'Bedürfnis',wunsch:'Wunsch',werbetrick:'Werbetrick'};
+  PUZZLE_R1.forEach(it=>{
+    const row=document.getElementById('r1row-'+it.id); row.classList.remove('correct','incorrect');
+    if(r1Choice[it.id]===it.correct) row.classList.add('correct');
+    else{ row.classList.add('incorrect'); allCorrect=false;
+      errors.push({kind:'falsch_einsortiert', item:it.text, wrongAnswer:label[r1Choice[it.id]], correctAnswer:label[it.correct]}); }
+  });
+  recordAttempt(0,{errors});
+  if(allCorrect){ r1Submitted=true; showStatus('success','Richtig','Erste Spur gesichert. Du hast den Unterschied erkannt.'); setTimeout(()=>triggerReveal(0),800); }
+  else{ showStatus('warning','Noch nicht ganz','Die rot hinterlegten Zeilen stimmen noch nicht. Schau noch mal hin und korrigiere.'); setTimeout(()=>{ PUZZLE_R1.forEach(it=>document.getElementById('r1row-'+it.id).classList.remove('correct','incorrect')); },4500); }
+};
+
+/* ---------- Room 2: Zuordnung (Dropdowns) ---------- */
+const R2_PAIRS=[
+  {key:'schiff', label:'Containerschiff', correct:'a'},
+  {key:'lkw', label:'LKW', correct:'b'},
+  {key:'flug', label:'Flugzeug', correct:'c'},
+];
+const R2_DESC={
+  a:'Transportiert riesige Mengen über Weltmeere. Pro Kilogramm Ware sehr wenig CO₂ (ca. 15 g) – verschmutzt aber durch billiges Schweröl die Luft mit Schwefel und Feinstaub.',
+  b:'Bringt die Ware vom Hafen ins Lager und vom Lager ins Geschäft. Mittlerer CO₂-Wert pro Kilogramm (ca. 100 g). Ohne dieses Transportmittel funktioniert die „letzte Meile" nicht.',
+  c:'Schnellste, aber mit Abstand klimaschädlichste Transportart. Pro Kilogramm rund 1.000 g CO₂ – etwa 60-mal so viel wie das Schiff.',
+  d:'Verbraucht nur Strom aus Wind und Sonne – ist also komplett klimaneutral.',
+  e:'Fährt unterirdisch auf Schienen und ist in jedem Land der Welt gleich gebaut.',
+};
+let r2Submitted=false;
+function renderRoom2(){
+  state.screen='room2'; renderSeals(); window.scrollTo({top:0,behavior:'instant'});
+  r2Submitted=false;
+  const room=ROOMS[1];
+  const allKeys=shuffle(Object.keys(R2_DESC));
+  const optionsHtml=allKeys.map(k=>`<option value="${k}">${R2_DESC[k]}</option>`).join('');
+  const rows=R2_PAIRS.map((p,i)=>`
+    <div class="match-row">
+      <div class="match-left">${i+1}. ${p.label}</div>
+      <select class="match-select" id="r2-${p.key}">
+        <option value="">— Beschreibung wählen —</option>
+        ${optionsHtml}
+      </select>
+    </div>`).join('');
+  root.innerHTML=`${roomHeader(room)}<div class="card">${rows}</div>${roomFooter('Pro Kilogramm Ware: Schiff ≈ 15 g CO₂, LKW ≈ 100 g, Flugzeug ≈ 1.000 g. Schiffe sind beim CO₂ sehr sparsam, durch Schweröl aber bei Schadstoffen ein Problem. Vorsicht: Zwei der Beschreibungen sind erfunden.','checkR2()')}`;
+}
+window.checkR2=()=>{
+  let allCorrect=true; const errors=[];
+  R2_PAIRS.forEach(p=>{
+    const sel=document.getElementById('r2-'+p.key); const val=sel.value;
+    sel.classList.remove('ok','bad');
+    if(val===p.correct){ sel.classList.add('ok'); }
+    else{ sel.classList.add('bad'); allCorrect=false;
+      errors.push({kind:'zuordnung_falsch', item:p.label, wrongAnswer:val?R2_DESC[val]:'(leer)', correctAnswer:R2_DESC[p.correct]}); }
+  });
+  recordAttempt(1,{errors});
+  if(allCorrect){ r2Submitted=true; showStatus('success','Richtig','Du hast die Reise des Sneakers entschlüsselt.'); setTimeout(()=>triggerReveal(1),800); }
+  else{ showStatus('warning','Noch nicht ganz','Die rot markierten Zuordnungen stimmen noch nicht. Korrigiere sie und prüfe erneut.'); }
+};
+
+/* ---------- Room 3: Klassifikation (Teil 1) + Video-Quiz Rana Plaza (Teil 2) ---------- */
+const PUZZLE_R3=[
+  {id:'r3a', text:'14-Stunden-Tag, sechs Tage die Woche', correct:'problem'},
+  {id:'r3b', text:'Schriftlicher Tarifvertrag mit der Gewerkschaft', correct:'fair'},
+  {id:'r3c', text:'Notausgänge sind verschlossen, damit niemand früher Pause macht', correct:'problem'},
+  {id:'r3d', text:'Schutzkleidung wird gestellt und ist Pflicht', correct:'fair'},
+  {id:'r3e', text:'Kinder unter 14 Jahren arbeiten an den Nähmaschinen', correct:'problem'},
+  {id:'r3f', text:'Bezahlter Urlaub und Lohnfortzahlung bei Krankheit', correct:'fair'},
+  {id:'r3g', text:'Lohn liegt unter dem, was zum Leben in der Region nötig ist', correct:'problem'},
+  {id:'r3h', text:'Brandschutzübungen finden regelmäßig statt', correct:'fair'},
+];
+const VIDEO_R3=[
+  { q:'Wie hoch ist der Mindestlohn in der Textilindustrie Bangladeschs laut tagesschau-Beitrag?',
+    options:[
+      {t:'Etwa 7 Euro pro Tag', correct:false},
+      {t:'Etwa 70 Euro pro Monat', correct:true},
+      {t:'Etwa 700 Euro pro Monat', correct:false},
+      {t:'Es gibt keinen gesetzlichen Mindestlohn', correct:false},
+    ]},
+  { q:'Was fordern die Gewerkschaften in Bangladesch?',
+    options:[
+      {t:'Eine Verdoppelung des Mindestlohns', correct:false},
+      {t:'Eine Erhöhung auf rund 200 Euro im Monat (also fast das Dreifache)', correct:true},
+      {t:'Eine Verzehnfachung des Mindestlohns', correct:false},
+      {t:'Die komplette Abschaffung der Mindestlohnregelung', correct:false},
+    ]},
+  { q:'Was hat sich laut dem Korrespondenten seit Rana Plaza verändert?',
+    options:[
+      {t:'Sowohl die Sicherheit als auch die Löhne haben sich klar verbessert.', correct:false},
+      {t:'Weder die Sicherheit noch die Löhne haben sich verbessert.', correct:false},
+      {t:'Vor allem die Sicherheit in größeren Fabriken hat sich verbessert – die Löhne dagegen kaum.', correct:true},
+      {t:'Die Löhne sind deutlich gestiegen, die Sicherheit ist gleich geblieben.', correct:false},
+    ]},
+];
+let r3Choice={}; let r3Submitted=false; let r3Order=[]; let r3VideoState=[];
+function renderRoom3(){
+  state.screen='room3'; renderSeals(); window.scrollTo({top:0,behavior:'instant'});
+  r3Choice={}; r3Submitted=false;
+  r3Order=shuffle(PUZZLE_R3);
+  r3VideoState=VIDEO_R3.map(q=>({q:q.q, options:shuffle(q.options), chosen:null}));
+  const room=ROOMS[2];
+  const rows=r3Order.map(it=>`
+    <div class="classify-row" id="r3row-${it.id}">
+      <div class="classify-text">${it.text}</div>
+      <div class="classify-btns">
+        <button class="classify-btn" id="r3-${it.id}-fair" onclick="pickR3('${it.id}','fair')">faire Bedingung</button>
+        <button class="classify-btn" id="r3-${it.id}-problem" onclick="pickR3('${it.id}','problem')">problematisch</button>
+      </div>
+    </div>`).join('');
+  const videoQ=r3VideoState.map((qq,qi)=>`
+    <div class="mc-question" id="mcq3-${qi}">
+      <div class="mc-q-text">${qi+1}. ${qq.q}</div>
+      ${qq.options.map((o,oi)=>`<button class="mc-option" id="mcv3-${qi}-${oi}" onclick="pickR3Video(${qi},${oi})"><span class="dot"></span><span>${o.t}</span></button>`).join('')}
+    </div>`).join('');
+  root.innerHTML=`${roomHeader(room)}
+    <p class="body-lg" style="margin-bottom:4px;"><strong>Teil 1:</strong> Ordne jede Bedingung als <em>fair</em> oder <em>problematisch</em> ein.</p>
+    <div class="card">${rows}</div>
+    <p class="body-lg" style="margin:18px 0 4px;"><strong>Teil 2:</strong> Drei Fragen zum tagesschau-Beitrag über Bangladesch heute.</p>
+    <div class="card">${videoQ}</div>
+    ${roomFooter('Teil 1: Schützt diese Bedingung die Arbeiter (fair) oder schadet/gefährdet sie sie (problematisch)? Teil 2: Erinnere dich an Mindestlohn, Gewerkschaftsforderung und Aussage des Korrespondenten zur Veränderung seit 2013.','checkR3()')}`;
+}
+window.pickR3=(id,val)=>{
+  if(r3Submitted) return;
+  r3Choice[id]=val;
+  document.getElementById(`r3-${id}-fair`).classList.toggle('active',val==='fair');
+  document.getElementById(`r3-${id}-problem`).classList.toggle('active',val==='problem');
+};
+window.pickR3Video=(qi,oi)=>{
+  if(r3Submitted) return;
+  r3VideoState[qi].chosen=oi;
+  r3VideoState[qi].options.forEach((o,k)=>{
+    document.getElementById(`mcv3-${qi}-${k}`).classList.toggle('selected',k===oi);
+  });
+};
+window.checkR3=()=>{
+  if(Object.keys(r3Choice).length<PUZZLE_R3.length || r3VideoState.some(q=>q.chosen===null)){
+    showStatus('warning','Noch unvollständig','Bitte beantworte Teil 1 (jede Bedingung zuordnen) und Teil 2 (alle drei Fragen).'); return;
+  }
+  let allCorrect=true; const errors=[];
+  const label={fair:'fair',problem:'problematisch'};
+  // Teil 1: Klassifikation
+  PUZZLE_R3.forEach(it=>{
+    const row=document.getElementById('r3row-'+it.id); row.classList.remove('correct','incorrect');
+    if(r3Choice[it.id]===it.correct) row.classList.add('correct');
+    else{ row.classList.add('incorrect'); allCorrect=false;
+      errors.push({kind:'falsch_einsortiert', item:it.text, wrongAnswer:label[r3Choice[it.id]], correctAnswer:label[it.correct]}); }
+  });
+  // Teil 2: Video-Quiz
+  r3VideoState.forEach((qq,qi)=>{
+    const chosen=qq.chosen;
+    const correctIdx=qq.options.findIndex(o=>o.correct);
+    const okay=qq.options[chosen].correct;
+    const el=document.getElementById(`mcv3-${qi}-${chosen}`);
+    el.classList.remove('selected'); el.classList.add(okay?'correct':'incorrect');
+    if(!okay){
+      allCorrect=false;
+      document.getElementById(`mcv3-${qi}-${correctIdx}`).classList.add('correct');
+      errors.push({kind:'mc_falsch', item:'Video-Frage '+(qi+1)+': '+qq.q, wrongAnswer:qq.options[chosen].t, correctAnswer:qq.options[correctIdx].t});
+    }
+  });
+  recordAttempt(2,{errors});
+  if(allCorrect){ r3Submitted=true; showStatus('success','Richtig','Die Spuren der Fabrik sind klar – und du hast genau zugehört.'); setTimeout(()=>triggerReveal(2),800); }
+  else{
+    showStatus('warning','Noch nicht ganz','Rot markierte Stellen stimmen noch nicht. Schau dir auch die grün markierten richtigen Antworten an und korrigiere deine Wahl.');
+    setTimeout(()=>{
+      PUZZLE_R3.forEach(it=>document.getElementById('r3row-'+it.id).classList.remove('correct','incorrect'));
+      r3VideoState.forEach((qq,qi)=>qq.options.forEach((o,k)=>{
+        const el=document.getElementById(`mcv3-${qi}-${k}`); el.classList.remove('correct','incorrect');
+        if(qq.chosen===k) el.classList.add('selected');
+      }));
+    },4500);
+  }
+};
+
+/* ---------- Room 4: Lückentext (6 Lücken) ---------- */
+const R4_BLANKS=[
+  {id:0,correct:'2.700',label:'Lücke 1 (Wassermenge T-Shirt)'},
+  {id:1,correct:'Aralsee',label:'Lücke 2 (geschrumpfter See)'},
+  {id:2,correct:'Baumwollfelder',label:'Lücke 3 (wofür Wasser umgeleitet wurde)'},
+  {id:3,correct:'Pestiziden',label:'Lücke 4 (Gifte gegen Schädlinge)'},
+  {id:4,correct:'Erdöl',label:'Lücke 5 (Rohstoff für Kunststoff)'},
+  {id:5,correct:'Kunststoff',label:'Lücke 6 (Material der Sohle)'},
+];
+const R4_BANK=['2.700','27','270','Aralsee','Bodensee','Kaspisches Meer','Baumwollfelder','Reisfelder','Maisfelder','Pestiziden','Düngemitteln','Vitaminen','Erdöl','Holz','Gold','Kunststoff','Leder','Metall'];
+const VIDEO_R4=[
+  { q:'Welche zwei großen Flüsse wurden umgeleitet, um in der Steppe Baumwollplantagen zu bewässern?',
+    options:[
+      {t:'Wolga und Don', correct:false},
+      {t:'Tigris und Euphrat', correct:false},
+      {t:'Amudarja und Syrdarja', correct:true},
+      {t:'Ural und Wolga', correct:false},
+    ]},
+  { q:'Welche gesundheitlichen Folgen erleidet die Bevölkerung rund um den Aralsee besonders häufig?',
+    options:[
+      {t:'Erfrierungen und Höhenkrankheit', correct:false},
+      {t:'Atemwegserkrankungen, Krebs und eine hohe Kindersterblichkeit', correct:true},
+      {t:'Sonnenbrand und Hauterkrankungen durch UV-Strahlung', correct:false},
+      {t:'Verdauungsstörungen durch zu wenig Salz', correct:false},
+    ]},
+  { q:'In welchem Teil des Aralsees gelang ein kleiner Teilerfolg durch den Kokaral-Damm?',
+    options:[
+      {t:'Im südlichen Teil (Usbekistan)', correct:false},
+      {t:'Im nördlichen Teil (Kasachstan)', correct:true},
+      {t:'In der Mitte des Sees', correct:false},
+      {t:'Im östlichen Teil (Afghanistan)', correct:false},
+    ]},
+];
+let r4Submitted=false; let r4VideoState=[];
+function r4Select(i,bank){
+  return `<select class="cloze-select match-select" id="r4-${i}"><option value="">— wählen —</option>${bank.map(w=>`<option value="${w}">${w}</option>`).join('')}</select>`;
+}
+function renderRoom4(){
+  state.screen='room4'; renderSeals(); window.scrollTo({top:0,behavior:'instant'});
+  r4Submitted=false;
+  r4VideoState=VIDEO_R4.map(q=>({q:q.q, options:shuffle(q.options), chosen:null}));
+  const room=ROOMS[3];
+  const bank=shuffle(R4_BANK);
+  const cloze=`
+    <div class="card"><p class="cloze">
+      Für ein einziges Baumwoll-T-Shirt werden rund ${r4Select(0,bank)} Liter Wasser verbraucht – so viel trinkt ein Mensch in etwa 2,5 Jahren.
+      Die meiste Baumwolle wird in heißen Ländern angebaut, obwohl dort Wasser knapp ist. Ein berühmtes Beispiel ist der ${r4Select(1,bank)},
+      der einst zu den größten Seen der Welt zählte und heute fast verschwunden ist, weil sein Wasser für ${r4Select(2,bank)} umgeleitet wurde.
+      Beim Anbau werden außerdem große Mengen an ${r4Select(3,bank)} eingesetzt, um die Pflanzen vor Schädlingen zu schützen.
+      Die Sohle eines Sneakers besteht meistens aus ${r4Select(5,bank)} – und dieser wird wiederum aus ${r4Select(4,bank)} hergestellt, einem Rohstoff, der irgendwann aufgebraucht sein wird.
+    </p></div>`;
+  const videoQ=r4VideoState.map((qq,qi)=>`
+    <div class="mc-question" id="mcq4-${qi}">
+      <div class="mc-q-text">${qi+1}. ${qq.q}</div>
+      ${qq.options.map((o,oi)=>`<button class="mc-option" id="mcv4-${qi}-${oi}" onclick="pickR4Video(${qi},${oi})"><span class="dot"></span><span>${o.t}</span></button>`).join('')}
+    </div>`).join('');
+  root.innerHTML=`${roomHeader(room)}
+    <p class="body-lg" style="margin-bottom:4px;"><strong>Teil 1:</strong> Vervollständige den Bericht (Lückentext).</p>
+    ${cloze}
+    <p class="body-lg" style="margin:18px 0 4px;"><strong>Teil 2:</strong> Drei Fragen zur Weltspiegel-Reportage über den Aralsee.</p>
+    <div class="card">${videoQ}</div>
+    ${roomFooter('Teil 1: 2,5 Jahre Trinken pro T-Shirt, ein See in Zentralasien, ein Rohstoff aus der Erde. Teil 2: Erinnere dich an die Flüsse, die gesundheitlichen Folgen und den Teilerfolg im Norden.','checkR4()')}`;
+}
+window.pickR4Video=(qi,oi)=>{
+  if(r4Submitted) return;
+  r4VideoState[qi].chosen=oi;
+  r4VideoState[qi].options.forEach((o,k)=>{
+    document.getElementById(`mcv4-${qi}-${k}`).classList.toggle('selected',k===oi);
+  });
+};
+window.checkR4=()=>{
+  if(r4VideoState.some(q=>q.chosen===null)){
+    showStatus('warning','Noch unvollständig','Bitte beantworte auch alle drei Fragen aus Teil 2.'); return;
+  }
+  let allCorrect=true; const errors=[];
+  // Teil 1: Lückentext
+  R4_BLANKS.forEach(b=>{
+    const sel=document.getElementById('r4-'+b.id); const val=sel.value;
+    sel.classList.remove('ok','bad');
+    if(val===b.correct){ sel.classList.add('ok'); }
+    else{ sel.classList.add('bad'); allCorrect=false; errors.push({kind:'luecke_falsch', item:b.label, wrongAnswer:val||'(leer)', correctAnswer:b.correct}); }
+  });
+  // Teil 2: Video-Quiz
+  r4VideoState.forEach((qq,qi)=>{
+    const chosen=qq.chosen;
+    const correctIdx=qq.options.findIndex(o=>o.correct);
+    const okay=qq.options[chosen].correct;
+    const el=document.getElementById(`mcv4-${qi}-${chosen}`);
+    el.classList.remove('selected'); el.classList.add(okay?'correct':'incorrect');
+    if(!okay){
+      allCorrect=false;
+      document.getElementById(`mcv4-${qi}-${correctIdx}`).classList.add('correct');
+      errors.push({kind:'mc_falsch', item:'Video-Frage '+(qi+1)+': '+qq.q, wrongAnswer:qq.options[chosen].t, correctAnswer:qq.options[correctIdx].t});
+    }
+  });
+  recordAttempt(3,{errors});
+  if(allCorrect){ r4Submitted=true; showStatus('success','Richtig','Die Spuren bis ins Baumwollfeld sind gelesen – und du kennst auch die Geschichte des Sees.'); setTimeout(()=>triggerReveal(3),800); }
+  else{
+    showStatus('warning','Noch nicht ganz','Rot markierte Stellen stimmen noch nicht. Schau dir auch die grün markierten richtigen Antworten an und korrigiere deine Wahl.');
+    setTimeout(()=>{
+      r4VideoState.forEach((qq,qi)=>qq.options.forEach((o,k)=>{
+        const el=document.getElementById(`mcv4-${qi}-${k}`); el.classList.remove('correct','incorrect');
+        if(qq.chosen===k) el.classList.add('selected');
+      }));
+    },4500);
+  }
+};
+
+/* ---------- Room 5: Multi-Select (richtige Aussagen) ---------- */
+const PUZZLE_R5=[
+  {id:'r5a', text:'Ein Paar neue Sneaker verursacht etwa so viel CO₂ wie eine 70-km-Autofahrt.', correct:true, expl:'Stimmt: ca. 14 kg CO₂ pro Paar – das ist die Größenordnung einer kurzen Autofahrt.'},
+  {id:'r5b', text:'Wir kaufen heute deutlich mehr Kleidung als noch vor 20 Jahren.', correct:true, expl:'Stimmt: rund doppelt so viel – und wir tragen sie nur halb so lang.'},
+  {id:'r5c', text:'Beim Waschen lösen sich kleinste Plastikfasern aus Kleidung aus Polyester und Nylon.', correct:true, expl:'Stimmt: Das ist Mikroplastik – es landet über das Abwasser im Meer und in Fischen.'},
+  {id:'r5d', text:'Unsere gespendeten Altkleider werden alle in Deutschland weitergetragen.', correct:false, expl:'Falsch: Große Mengen gehen ins Ausland, vor allem nach Ghana und Chile, wo sich riesige Müllberge auftürmen.'},
+  {id:'r5e', text:'In Chile und Ghana türmen sich Berge aus weggeworfener Kleidung aus reichen Ländern.', correct:true, expl:'Stimmt: Atacama-Wüste (Chile) und Kantamanto-Markt in Accra (Ghana) sind die bekanntesten Beispiele.'},
+  {id:'r5f', text:'Kleidung produziert kein CO₂, weil sie nicht aus Metall ist.', correct:false, expl:'Falsch: Bei jeder Produktion wird CO₂ ausgestoßen – durch Energie für Maschinen, Transport, Düngemittel usw.'},
+  {id:'r5g', text:'Fast-Fashion-Marken bringen oft jede Woche neue Modelle in die Läden.', correct:true, expl:'Stimmt: Shein, H&M und ähnliche Marken setzen auf wöchentliche neue Kollektionen – das nennt man Fast Fashion.'},
+  {id:'r5h', text:'Mikroplastik landet am Ende auch in Fischen, die wir essen.', correct:true, expl:'Stimmt: Die winzigen Plastikfasern können bis in unsere Nahrungskette wandern.'},
+];
+let r5Selected=new Set(); let r5Submitted=false; let r5Order=[];
+function renderRoom5(){
+  state.screen='room5'; renderSeals(); window.scrollTo({top:0,behavior:'instant'});
+  r5Selected=new Set(); r5Submitted=false;
+  r5Order=shuffle(PUZZLE_R5);
+  const room=ROOMS[4];
+  const cards=r5Order.map(m=>`<button class="multi-card" id="r5-${m.id}" onclick="toggleR5('${m.id}')"><span class="box"></span><span>${m.text}</span></button>`).join('');
+  root.innerHTML=`${roomHeader(room)}<div class="multi-grid">${cards}</div>${roomFooter('Tipp: Es sind sechs richtige und zwei falsche Aussagen dabei. Wer alle korrekten Aussagen markiert und keine falschen, kommt durch.','checkR5()')}`;
+}
+window.toggleR5=(id)=>{
+  if(r5Submitted) return;
+  const c=document.getElementById('r5-'+id);
+  if(r5Selected.has(id)){ r5Selected.delete(id); c.classList.remove('selected'); }
+  else{ r5Selected.add(id); c.classList.add('selected'); }
+};
+window.checkR5=()=>{
+  let perfect=true; const errors=[];
+  PUZZLE_R5.forEach(m=>{
+    const c=document.getElementById('r5-'+m.id); c.classList.remove('selected','correct','incorrect','missed');
+    const sel=r5Selected.has(m.id);
+    if(sel&&m.correct) c.classList.add('correct');
+    else if(sel&&!m.correct){ c.classList.add('incorrect'); perfect=false; errors.push({kind:'falsch_gewaehlt', item:m.text, explanation:m.expl}); }
+    else if(!sel&&m.correct){ c.classList.add('missed'); perfect=false; errors.push({kind:'uebersehen', item:m.text, explanation:m.expl}); }
+  });
+  recordAttempt(4,{errors});
+  if(perfect){ r5Submitted=true; showStatus('success','Richtig','Du siehst das große Bild. Konsum hat einen Preis, der nicht auf dem Preisschild steht.'); setTimeout(()=>triggerReveal(4),800); }
+  else{ showStatus('warning','Noch nicht ganz','Rot = fälschlich gewählt, gold = übersehen. Lies die Markierungen und korrigiere deine Auswahl.'); setTimeout(()=>{ PUZZLE_R5.forEach(m=>{ const c=document.getElementById('r5-'+m.id); c.classList.remove('correct','incorrect','missed'); if(r5Selected.has(m.id)) c.classList.add('selected'); }); },4500); }
+};
+
+/* ---------- Room 6: Siegel-Zuordnung + Schlussstein ---------- */
+const R6_SEALS=[
+  {key:'fairtrade', label:'Fairtrade', correct:'a'},
+  {key:'gots', label:'GOTS', correct:'b'},
+  {key:'gruenerknopf', label:'Grüner Knopf', correct:'c'},
+  {key:'blauerengel', label:'Blauer Engel', correct:'d'},
+];
+const R6_DESC={
+  a:'Garantiert faire Löhne und bessere Arbeitsbedingungen für Bauern und Arbeiter, vor allem in ärmeren Ländern.',
+  b:'Steht für Bio-Baumwolle in Kombination mit sozialen Standards in der gesamten Textil-Produktion.',
+  c:'Staatliches deutsches Siegel (seit 2019) für Textilien, die sozial und umweltgerecht hergestellt werden.',
+  d:'Ältestes deutsches Umweltsiegel – kennzeichnet besonders umweltfreundliche Produkte.',
+  e:'Garantiert, dass das Produkt komplett in Deutschland hergestellt wurde und keinen Strom verbraucht hat.',
+};
+const R6_KEYSTONE_ACCEPT=['handeln','handle','aktiv werden','aktiv handeln','etwas tun','selbst handeln'];
+let r6Submitted=false;
+function renderRoom6(){
+  state.screen='room6'; renderSeals(); window.scrollTo({top:0,behavior:'instant'});
+  r6Submitted=false;
+  const room=ROOMS[5];
+  const allKeys=shuffle(Object.keys(R6_DESC));
+  const optionsHtml=allKeys.map(k=>`<option value="${k}">${R6_DESC[k]}</option>`).join('');
+  const rows=R6_SEALS.map((p,i)=>`
+    <div class="match-row">
+      <div class="match-left">${i+1}. ${p.label}</div>
+      <select class="match-select" id="r6-${p.key}">
+        <option value="">— Bedeutung wählen —</option>
+        ${optionsHtml}
+      </select>
+    </div>`).join('');
+  root.innerHTML=`
+    ${roomHeader(room)}
+    <p class="body-lg" style="margin-bottom:4px;"><strong>Teil 1:</strong> Welche Bedeutung gehört zu welchem Siegel?</p>
+    <div class="card">${rows}</div>
+    <div class="card">
+      <p class="body-lg" style="margin-bottom:10px;"><strong>Teil 2 · Der Schlussstein.</strong> Lina hat den Sneaker zurückverfolgt. Sie weiß jetzt, wie der weltweite Handel funktioniert. Aber Wissen allein reicht nicht. Was muss Lina – und damit auch du – jetzt tun? <em>(ein einzelnes Wort)</em></p>
+      <input id="r6input" class="text-input" type="text" maxlength="40" placeholder="Antwort eingeben …" style="max-width:360px;" onkeydown="if(event.key==='Enter') checkR6()">
+    </div>
+    ${roomFooter('Teil 1: Vier Siegel, vier Bedeutungen. Eine Beschreibung ist erfunden – die passt zu keinem Siegel. Teil 2: Das Wort liegt auf der Hand. Es klingt fast wie das Lösungswort.','checkR6()')}`;
+}
+window.checkR6=()=>{
+  let allCorrect=true; const errors=[];
+  R6_SEALS.forEach(p=>{
+    const sel=document.getElementById('r6-'+p.key); const val=sel.value;
+    sel.classList.remove('ok','bad');
+    if(val===p.correct){ sel.classList.add('ok'); }
+    else{ sel.classList.add('bad'); allCorrect=false;
+      errors.push({kind:'zuordnung_falsch', item:p.label, wrongAnswer:val?R6_DESC[val]:'(leer)', correctAnswer:R6_DESC[p.correct]}); }
+  });
+  const inputEl=document.getElementById('r6input');
+  const val=inputEl.value;
+  const inputOk=R6_KEYSTONE_ACCEPT.includes(normalizeAnswer(val));
+  if(!inputOk){ allCorrect=false; inputEl.style.borderColor='var(--error)'; errors.push({kind:'falsche_eingabe', item:'Schlussstein: Was muss Lina – und du – jetzt tun?', wrongAnswer:val||'(leer)', correctAnswer:'handeln'}); }
+  else inputEl.style.borderColor='var(--success)';
+  recordAttempt(5,{errors});
+  if(allCorrect){ r6Submitted=true; showStatus('success','Richtig','Der Schlussstein sitzt. Du hast den ganzen Weg gesehen – und das Wort gefunden.'); setTimeout(()=>triggerReveal(5),800); }
+  else{ showStatus('warning','Noch nicht ganz','Prüfe Teil 1 (rote Felder) und Teil 2 (das eine Wort).'); }
+};
+
+/* ============================================================
+   REVEAL & ROUTER
+   ============================================================ */
+function triggerReveal(roomIdx){
+  state.solved[roomIdx]=true; state.letters[roomIdx]=CODE_WORD[roomIdx];
+  const overlay=document.getElementById('revealOverlay');
+  document.getElementById('revealLetter').textContent=CODE_WORD[roomIdx];
+  document.getElementById('revealCaption').textContent=`Buchstabe ${roomIdx+1} von 6 freigeschaltet`;
+  const progBox=document.getElementById('revealProgress'); progBox.innerHTML='';
+  for(let i=0;i<6;i++){ const span=document.createElement('span'); span.className='reveal-progress-letter'+(state.solved[i]?' lit':''); span.textContent=state.solved[i]?CODE_WORD[i]:'·'; progBox.appendChild(span); }
+  const btn=document.getElementById('revealContinue'); const isLast=roomIdx===5;
+  btn.textContent=isLast?'Fall abschließen':'Nächste Recherche-Akte öffnen';
+  btn.onclick=()=>{ overlay.classList.remove('show'); setTimeout(()=>{ if(isLast) renderFinal(); else goLibrary(roomIdx+2); },250); };
+  overlay.classList.add('show');
+}
+window.goRoom=(n)=>{
+  window.scrollTo({top:0,behavior:'instant'});
+  switch(n){ case 1:renderRoom1();break; case 2:renderRoom2();break; case 3:renderRoom3();break; case 4:renderRoom4();break; case 5:renderRoom5();break; case 6:renderRoom6();break; }
+};
+
+/* ============================================================
+   FINAL
+   ============================================================ */
+function renderFinal(){
+  state.screen='final';
+  if(!state.completedAt) state.completedAt=new Date();
+  renderSeals(); window.scrollTo({top:0,behavior:'instant'});
+  const totalErrors=state.mistakes.reduce((a,m)=>a+(m&&m.errors?m.errors.length:0),0);
+  const perfectRooms=state.attempts.filter((a,i)=>a>=1 && (!state.mistakes[i]||!state.mistakes[i].errors||state.mistakes[i].errors.length===0)).length;
+  const summary = totalErrors===0
+    ? `Alle sechs Etappen im ersten Versuch fehlerfrei – stark, ${escapeHtml(state.firstName)}.`
+    : `Du hast ${perfectRooms} von 6 Etappen im ersten Versuch fehlerfrei gelöst (${totalErrors} Erstversuchs-Fehler). Im Überblick findest du alle mit Erklärung.`;
+
+  root.innerHTML=`
+    <div class="final-hero">
+      <div class="kicker" style="justify-content:center;">Fall abgeschlossen · Lösungswort</div>
+      <div class="final-code">${CODE_WORD}</div>
+      <p class="lede" style="margin:20px auto 0; max-width:58ch;">
+        Geschafft, ${escapeHtml(state.firstName)}. Du hast den Weg des Sneakers von der Haustür bis zum Baumwollfeld zurückverfolgt. Das Lösungswort hat zwei Bedeutungen: Du verstehst jetzt, wie der weltweite <strong>Handel</strong> funktioniert – und du weißt, dass es Zeit ist zu <strong>handeln</strong>.
+      </p>
+      <p class="text-mute" style="margin-top:12px; max-width:58ch; margin-left:auto; margin-right:auto; font-size:13.5px;">${summary}</p>
+    </div>
+
+    <div class="journey-wrap">
+      <svg viewBox="0 0 520 260" xmlns="http://www.w3.org/2000/svg">
+        <!-- Hintergrundpfad -->
+        <path d="M 40 220 Q 130 60 260 130 Q 390 200 480 80" fill="none" stroke="#b07a2a" stroke-width="2.5" stroke-dasharray="6 5" opacity="0.6"/>
+
+        <!-- Station 1: Baumwollfeld -->
+        <circle cx="40" cy="220" r="22" fill="#3f7a4d"/>
+        <text x="40" y="226" text-anchor="middle" fill="#ffffff" font-family="Inter,sans-serif" font-size="14" font-weight="700">1</text>
+        <text x="40" y="252" text-anchor="middle" fill="#1e2a1f" font-family="Inter,sans-serif" font-size="10" font-weight="600">Baumwollfeld</text>
+
+        <!-- Station 2: Fabrik -->
+        <circle cx="155" cy="95" r="22" fill="#3f7a4d"/>
+        <text x="155" y="101" text-anchor="middle" fill="#ffffff" font-family="Inter,sans-serif" font-size="14" font-weight="700">2</text>
+        <text x="155" y="73" text-anchor="middle" fill="#1e2a1f" font-family="Inter,sans-serif" font-size="10" font-weight="600">Fabrik (Asien)</text>
+
+        <!-- Station 3: Schiff -->
+        <circle cx="260" cy="130" r="22" fill="#3f7a4d"/>
+        <text x="260" y="136" text-anchor="middle" fill="#ffffff" font-family="Inter,sans-serif" font-size="14" font-weight="700">3</text>
+        <text x="260" y="162" text-anchor="middle" fill="#1e2a1f" font-family="Inter,sans-serif" font-size="10" font-weight="600">Containerschiff</text>
+
+        <!-- Station 4: Hafen/LKW -->
+        <circle cx="370" cy="170" r="22" fill="#3f7a4d"/>
+        <text x="370" y="176" text-anchor="middle" fill="#ffffff" font-family="Inter,sans-serif" font-size="14" font-weight="700">4</text>
+        <text x="370" y="202" text-anchor="middle" fill="#1e2a1f" font-family="Inter,sans-serif" font-size="10" font-weight="600">Hafen &amp; LKW</text>
+
+        <!-- Station 5: Linas Haustür -->
+        <circle cx="480" cy="80" r="22" fill="#b07a2a"/>
+        <text x="480" y="86" text-anchor="middle" fill="#ffffff" font-family="Inter,sans-serif" font-size="14" font-weight="700">5</text>
+        <text x="480" y="52" text-anchor="middle" fill="#1e2a1f" font-family="Inter,sans-serif" font-size="10" font-weight="600">Linas Haustür</text>
+
+        <!-- Titel -->
+        <text x="260" y="20" text-anchor="middle" fill="#3f7a4d" font-family="IBM Plex Mono,monospace" font-size="10" letter-spacing="2.5">DIE REISE DEINES SNEAKERS</text>
+      </svg>
+    </div>
+
+    <div class="card">
+      <h2 style="font-size:22px; margin-bottom:6px;">Drei Schritte zum Abschluss</h2>
+      <p class="text-mute" style="font-size:13.5px; margin-bottom:20px;">Alle drei sind nötig, damit dein Lehrer den Abschluss verbuchen kann.</p>
+      <div class="final-actions">
+        <button class="final-action" onclick="downloadOverviewPDF()">
+          <div class="label">Schritt 1 · Pflicht</div>
+          <div class="title">„Überblick deiner Antworten &amp; Erläuterungen" herunterladen</div>
+          <div class="desc">Persönliche PDF mit deinem Namen, Geburtsdatum, Code und Abschlusszeit – plus einer Seite mit Lösungserläuterungen. <strong style="color:var(--primary)">Lade sie in Moodle hoch.</strong></div>
+        </button>
+        <button class="final-action" onclick="openFeiditor()">
+          <div class="label">Schritt 2 · Digitales Arbeitsblatt</div>
+          <div class="title">Digitales Arbeitsblatt im Feiditor öffnen</div>
+          <div class="desc">Öffnet sich in einem neuen Tab. Dort sind die Aufgaben schon eingetragen – bearbeite sie direkt im Schreibbereich, wandle deinen Text am Ende in eine PDF-Datei um und lade diese bei Moodle hoch.</div>
+        </button>
+        <button class="final-action" onclick="copyCode()">
+          <div class="label">Schritt 3 · Bestätigung</div>
+          <div class="title">Bestätigungscode: <span class="font-mono" style="color:var(--accent); padding-left:6px;">${state.code}</span></div>
+          <div class="desc" id="copyDesc">Trage diesen Code in die entsprechende Moodle-Aufgabe ein. Klicke hier, um ihn zu kopieren.</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="lina-card">
+        <div class="lina-frame">
+          <svg viewBox="0 0 128 160" xmlns="http://www.w3.org/2000/svg">
+            <rect x="2" y="2" width="124" height="156" rx="6" fill="#f3f8ec" stroke="#3f7a4d" stroke-width="2"/>
+            <rect x="9" y="9" width="110" height="142" rx="3" fill="none" stroke="#3f7a4d" stroke-width="0.7" stroke-dasharray="3 3"/>
+            <!-- Schuhkarton -->
+            <rect x="28" y="60" width="72" height="38" fill="#b07a2a" rx="2"/>
+            <rect x="28" y="60" width="72" height="8" fill="#8e6322" rx="2"/>
+            <!-- Schleife -->
+            <path d="M50 60 Q64 50 78 60" fill="none" stroke="#f3f8ec" stroke-width="2"/>
+            <circle cx="64" cy="56" r="3" fill="#f3f8ec"/>
+            <!-- Zettel mit Fragezeichen -->
+            <rect x="40" y="78" width="20" height="14" fill="#ffffff" stroke="#1e2a1f" stroke-width="0.5"/>
+            <text x="50" y="89" text-anchor="middle" fill="#b07a2a" font-family="Fraunces,serif" font-size="10" font-weight="700">?</text>
+            <!-- Beschriftung -->
+            <text x="64" y="123" text-anchor="middle" fill="#1e2a1f" font-family="Fraunces,serif" font-size="11" font-weight="700">Päckchen</text>
+            <text x="64" y="138" text-anchor="middle" fill="#1e2a1f" font-family="Fraunces,serif" font-size="11" font-weight="700">an Lina</text>
+          </svg>
+          <div class="lina-cap">Stilisierte Darstellung</div>
+        </div>
+        <div class="lina-body">
+          <h3>Warum „HANDEL"?</h3>
+          <p style="font-size:14.5px; margin-bottom:8px;">
+            Das Lösungswort hat zwei Bedeutungen, die genau das treffen, was du in diesem Escape-Room gelernt hast:
+          </p>
+          <ul class="muted-list">
+            <li><strong>Welt­handel</strong> – also der Austausch von Waren rund um den Erdball – ist der Grund, warum dein Sneaker eine Reise um die halbe Welt hinter sich hat, bevor er in Deutschland ankommt.</li>
+            <li><strong>Handeln</strong> – also etwas tun – ist das, worum es jetzt geht. Wissen reicht nicht: Du hast vier Hebel kennengelernt (weniger kaufen, länger nutzen, bewusster kaufen, politisch handeln).</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 style="font-size:17px; margin-bottom:10px;">Was du auf dem Weg gelernt hast</h3>
+      <ul class="muted-list">
+        <li><strong>Etappe 1</strong> – Bedürfnis, Wunsch und Werbetrick unterscheiden</li>
+        <li><strong>Etappe 2</strong> – Wie die globale Warenkette funktioniert (Schiff, LKW, Flugzeug)</li>
+        <li><strong>Etappe 3</strong> – Was faire und problematische Arbeitsbedingungen ausmacht (Beispiel Rana Plaza)</li>
+        <li><strong>Etappe 4</strong> – Was unsere Kleidung an Wasser und Rohstoffen verbraucht (2.700 L, Aralsee, Erdöl)</li>
+        <li><strong>Etappe 5</strong> – Welche ökologischen Folgen unser Konsum hat (CO₂, Fast Fashion, Mikroplastik, Altkleider-Müllberge)</li>
+        <li><strong>Etappe 6</strong> – Was du als Verbraucher tun kannst – plus das Lieferkettengesetz</li>
+      </ul>
+    </div>
+  `;
+}
+
+/* ============================================================
+   INIT
+   ============================================================ */
+renderStart();
+</script>
+</body>
+</html>
