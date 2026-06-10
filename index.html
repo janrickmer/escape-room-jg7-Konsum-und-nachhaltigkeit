@@ -1417,11 +1417,6 @@ window.openFeiditor=()=>{
     win.document.close();
   }catch(e){ console.error(e); alert('Das digitale Arbeitsblatt konnte nicht geöffnet werden: '+e.message); }
 };
-window.copyCode=async()=>{
-  try{ await navigator.clipboard.writeText(state.code);
-    const d=document.getElementById('copyDesc'); if(d) d.innerHTML='Code in die Zwischenablage kopiert. Trage ihn in die Moodle-Aufgabe ein.';
-  }catch(e){ const d=document.getElementById('copyDesc'); if(d) d.innerHTML='Code: <strong class="font-mono">'+state.code+'</strong> – bitte manuell kopieren.'; }
-};
 
 /* ============================================================
    DOM-REFS & SEALS
@@ -2582,8 +2577,8 @@ function renderFinal(){
     </div>
 
     <div class="card">
-      <h2 style="font-size:22px; margin-bottom:6px;">Drei Schritte zum Abschluss</h2>
-      <p class="text-mute" style="font-size:13.5px; margin-bottom:20px;">Alle drei sind nötig, damit dein Lehrer den Abschluss verbuchen kann.</p>
+      <h2 style="font-size:22px; margin-bottom:6px;">Zwei Schritte zum Abschluss</h2>
+      <p class="text-mute" style="font-size:13.5px; margin-bottom:20px;">Beide sind nötig, damit dein Lehrer den Abschluss verbuchen kann.</p>
       <div class="final-actions">
         <button class="final-action" onclick="downloadOverviewPDF()">
           <div class="label">Schritt 1 · Pflicht</div>
@@ -2594,11 +2589,6 @@ function renderFinal(){
           <div class="label">Schritt 2 · Digitales Arbeitsblatt</div>
           <div class="title">Digitales Arbeitsblatt im Feiditor öffnen</div>
           <div class="desc">Öffnet sich in einem neuen Tab. Dort sind die Aufgaben schon eingetragen – bearbeite sie direkt im Schreibbereich, wandle deinen Text am Ende in eine PDF-Datei um und lade diese bei Moodle hoch.</div>
-        </button>
-        <button class="final-action" onclick="copyCode()">
-          <div class="label">Schritt 3 · Bestätigung</div>
-          <div class="title">Bestätigungscode: <span class="font-mono" style="color:var(--accent); padding-left:6px;">${state.code}</span></div>
-          <div class="desc" id="copyDesc">Trage diesen Code in die entsprechende Moodle-Aufgabe ein. Klicke hier, um ihn zu kopieren.</div>
         </button>
       </div>
     </div>
