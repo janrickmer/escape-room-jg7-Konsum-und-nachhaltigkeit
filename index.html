@@ -2297,6 +2297,16 @@ window.submitStart=()=>{
 function renderIntro(){
   state.screen='intro'; renderSeals();
   root.innerHTML=`
+    <div class="card">
+      <div class="video-wrap">
+        <iframe src="https://www.youtube-nocookie.com/embed/ShLxo4Mrb0I?rel=0" title="Einführungsvideo zum Escape-Room" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <div class="fallback-line">
+        <span>Video lädt nicht oder zeigt einen Fehler?</span>
+        <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=ShLxo4Mrb0I" target="_blank" rel="noopener noreferrer">Direkt auf YouTube öffnen ↗</a>
+      </div>
+    </div>
+
     <div class="kicker">Der Fall</div>
     <h1 class="title-mega">Willkommen<br>im Fall, <em>${escapeHtml(state.firstName)}</em></h1>
     <p class="lede">Sechs Etappen. Sechs Buchstaben. Eine Geschichte, die niemand erzählt – außer du findest sie heraus.</p>
@@ -3359,7 +3369,14 @@ function renderFinal(){
     <div class="arena">
       <div class="arena-kicker">Das große Finale</div>
       <h2>Betritt die Arena</h2>
-      <p>Alle sechs Etappen liegen hinter dir. Jetzt wartet dein letzter Gegner: der <strong style="color:#f0cf78">Feiditor</strong>. In der Arena zeigst du schriftlich, was du wirklich verstanden hast. Klicke auf den Durchgang, um einzutreten – die Arena öffnet sich in einem neuen Tab.</p>
+      <div class="video-wrap" style="max-width:760px; margin-left:auto; margin-right:auto;">
+        <iframe src="https://www.youtube-nocookie.com/embed/Sh0REtJ1o5w?rel=0" title="Video vor dem Finale gegen den Feiditor" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+      <div class="fallback-line" style="justify-content:center; max-width:760px; margin-left:auto; margin-right:auto; color:#b9c4d8;">
+        <span>Video lädt nicht oder zeigt einen Fehler?</span>
+        <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=Sh0REtJ1o5w" target="_blank" rel="noopener noreferrer" style="color:#f0cf78; border-color:rgba(240,207,120,.5);">Direkt auf YouTube öffnen ↗</a>
+      </div>
+      <p style="margin-top:18px;">Alle sechs Etappen liegen hinter dir. Jetzt wartet dein letzter Gegner: der <strong style="color:#f0cf78">Feiditor</strong>. In der Arena zeigst du schriftlich, was du wirklich verstanden hast. Klicke auf den Durchgang, um einzutreten – die Arena öffnet sich in einem neuen Tab.</p>
       <button class="arena-gate" onclick="openFeiditor()" aria-label="Durchgang anklicken und die Arena betreten">
         <svg viewBox="0 0 800 460" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ein dunkler Gang führt auf das hell erleuchtete Spielfeld einer Arena">
           <defs>
